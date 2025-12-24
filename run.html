@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Swap Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="run.css">
+
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+  <style>
+ 
+
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Smooth fade for screen switching */
+        .screen-section { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    html {
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;        /* dark slate text */
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  font-weight: 400;
+  color: #475569;        /* softer gray */
+}
+
+
+    /* Typography system (as requested) */
+    .h1 { font-size: 32px; font-weight: 700; line-height: 1.15; }
+    .h2 { font-size: 24px; font-weight: 300; line-height: 1.2; }
+    .body { font-size: 15px; font-weight: 400; line-height: 1.6; }
+    .muted { color: var(--text-secondary); }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .ml-auto { margin-left: auto; }
+    .row { display: flex; align-items: center; gap: .75rem; }
+    .stack { display: grid; gap: 1rem; }
+    .divider { height: 1px; background: var(--border); margin: 1rem 0; }
+    .desktop-only { display: none; }
+    .icon-xs { width: 14px; height: 14px; }
+    .icon-sm { width: 18px; height: 18px; }
+    .icon-md { width: 22px; height: 22px; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .6rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s;
+      user-select: none;
+    }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { filter: brightness(.95); }
+    .btn-outline { border-color: var(--border); background: var(--white); }
+    .btn-ghost { color: var(--text-secondary); }
+    .btn-block { width: 100%; }
+
+    .icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .icon-btn:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+    /* Inputs */
+    label { font-size: 14px; font-weight: 500; display: block; margin-bottom: .35rem; }
+    .req::after { content: " *"; color: var(--primary); font-weight: 700; }
+    input, select, textarea {
+      width: 100%;
+      padding: .65rem .75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--white);
+    }
+    textarea { resize: vertical; min-height: 110px; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid rgba(30,144,255,.35); border-color: transparent; }
+    .field { margin-bottom: 1rem; }
+    .error { color: #b42318; font-size: 13px; margin-top: .35rem; }
+
+    /* Shell */
+    #app-shell { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 260px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem;
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .sidebar .brand {
+      display: flex; align-items: center; gap: .75rem;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .brand img { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; background: var(--accent); }
+    .nav {
+      display: flex; flex-direction: column; gap: .5rem;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: .2s;
+      text-align: left;
+      font-weight: 500;
+    }
+    .nav-item:hover { background: #eff6ff; color: var(--text-primary); }
+    .nav-item.active { background: #eff6ff; color: var(--primary); font-weight: 600; }
+    .sidebar-footer { border-top: 1px solid var(--border); padding-top: 1rem; }
+
+    .main {
+      flex: 1;
+      padding: 1rem;
+      padding-bottom: 5.25rem; /* mobile bottom nav space */
+      overflow-y: auto;
+    }
+
+    /* Mobile header */
+    .mobile-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem;
+    }
+    .avatar {
+      width: 34px; height: 34px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--white);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Bottom nav (icons only) */
+    .bottom-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: .5rem .35rem;
+      z-index: 50;
+    }
+    .bottom-nav .nav-item {
+      flex-direction: column;
+      gap: .25rem;
+      padding: .55rem .75rem;
+      border-radius: 999px;
+    }
+    .bottom-nav .nav-item span { display: none; } /* icons only */
+
+    /* Views */
+    .view { display: none; animation: fadeIn .22s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    /* Promo card */
+    .promo-card {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin: 1rem 0 1.25rem;
+    }
+    .promo-card .promo-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.22), transparent 40%),
+        radial-gradient(circle at 70% 75%, rgba(255,255,255,.14), transparent 45%);
+      pointer-events: none;
+    }
+
+    .promo-card .btn-outline {
+  color: var(--text-primary);
+}
+
+    .promo-card .content { position: relative; display: grid; gap: .5rem; max-width: 520px; }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .45rem .9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s;
+      white-space: nowrap;
+    }
+    .pill.active { background: var(--text-primary); color: var(--white); border-color: var(--text-primary); }
+
+    .filter-row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: none;
+      transition: .2s;
+    }
+    .card:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .card-media { height: 180px; position: relative; background: var(--accent); }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.06);
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .card-body { padding: 1rem; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: .35rem; }
+    .card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+    .card-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid #f3f4f6;
+      margin-top: .9rem;
+      padding-top: .75rem;
+      gap: .75rem;
+    }
+    .author {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: 14px; font-weight: 500;
+      color: var(--text-primary);
+    }
+    .author img { width: 26px; height: 26px; border-radius: 999px; object-fit: cover; background: var(--accent); border: 1px solid var(--border); }
+    .stats { display: flex; align-items: center; gap: .65rem; color: var(--text-secondary); font-size: 14px; }
+    .stat { display: inline-flex; align-items: center; gap: .3rem; }
+
+    /* Sticky search header (Search Results) */
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg-main);
+      padding: .25rem 0 .75rem;
+    }
+    .searchbar {
+      position: relative;
+      margin-bottom: .75rem;
+    }
+    .searchbar i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      width: 18px;
+    }
+    .searchbar input {
+      padding-left: 42px;
+      border-radius: var(--radius);
+      padding-top: .8rem; padding-bottom: .8rem;
+    }
+
+    .layout-2col { display: flex; gap: 1.25rem; align-items: flex-start; }
+    .filters {
+      width: 240px;
+      flex-shrink: 0;
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: none;
+    }
+    .filters h4 { font-size: 14px; font-weight: 600; margin-bottom: .5rem; }
+    .check { display: flex; gap: .5rem; align-items: center; font-size: 14px; color: var(--text-secondary); margin-bottom: .5rem; }
+    .check input { width: auto; }
+
+    /* Vertical result cards */
+    .result-list { display: grid; gap: .75rem; flex: 1; }
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      transition: .2s;
+    }
+    .result-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+    .tag {
+      background: #eff6ff;
+      color: var(--primary);
+      border-radius: 999px;
+      padding: .2rem .6rem;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .result-footer { display: flex; justify-content: space-between; align-items: center; margin-top: .9rem; gap: .75rem; }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .empty .icon {
+      width: 64px; height: 64px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      margin: 0 auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+    }
+
+    /* Profile */
+    .cover {
+      height: 150px;
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      border-radius: var(--radius);
+    }
+    .profile-bar {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      margin-top: -34px;
+      padding: 0 1rem;
+    }
+    .avatar-lg {
+      width: 96px; height: 96px;
+      border-radius: 999px;
+      border: 4px solid var(--white);
+      overflow: hidden;
+      background: var(--white);
+    }
+    .avatar-lg img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-info { flex: 1; padding-bottom: .35rem; }
+    .profile-grid { display: grid; gap: 1rem; margin-top: 1.25rem; }
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .panel h3 { font-size: 16px; font-weight: 600; margin-bottom: .75rem; }
+    .chiplist { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .35rem .65rem;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 12px;
+      border: 1px solid rgba(30,144,255,.12);
+    }
+    .chip button {
+      border: none; background: transparent; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--primary);
+    }
+
+    /* Contributions */
+    .status {
+      font-size: 12px; font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      color: var(--text-secondary);
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .status.published { background: #ecfdf3; color: #027a48; border-color: rgba(2,122,72,.15); }
+    .status.draft { background: #fef3c7; color: #92400e; border-color: rgba(146,64,14,.15); }
+    .status.archived { background: #f3f4f6; color: #374151; border-color: rgba(55,65,81,.15); }
+
+    .nav-item {
+  color: #9ca3af; /* inactive */
+}
+
+.nav-item.active {
+  color: rgba(30,144,255,.3) /* active */
+}
+
+.nav-item {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-item.active {
+  transform: scale(1.1);
+}
+
+
+    .mini-actions { display: flex; gap: .5rem; align-items: center; }
+    .dropdown { position: relative; }
+    .menu {
+      position: absolute;
+      right: 0; top: 42px;
+      width: 180px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: .35rem;
+      display: none;
+      z-index: 30;
+    }
+    .menu button {
+      width: 100%;
+      text-align: left;
+      padding: .6rem .7rem;
+      border-radius: .55rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex; gap: .6rem; align-items: center;
+    }
+    .menu button:hover { background: #f3f4f6; }
+    .menu .danger { color: #b42318; }
+
+    /* Bookmarks grid/list + remove animation */
+    .controls { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+    .sort { min-width: 180px; }
+
+    .bookmark-top { display: flex; gap: .5rem; align-items: flex-start; }
+    .bookmark-top .card-title { flex: 1; }
+
+    .favorite.active { border-color: rgba(30,144,255,.3); }
+
+    .removing {
+      opacity: 0;
+      transform: translateY(6px);
+      height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border-width: 0 !important;
+      transition: opacity 200ms ease, transform 200ms ease, height 260ms ease, margin 260ms ease, padding 260ms ease, border-width 260ms ease;
+    }
+
+    .list-view { display: flex; flex-direction: column; gap: .75rem; }
+    .list-view .card { display: flex; flex-direction: row; }
+    .list-view .card-media { width: 140px; height: 120px; flex-shrink: 0; }
+    .list-view .card-body { flex: 1; }
+    .quick-actions { display: flex; gap: .5rem; align-items: center; margin-top: .75rem; }
+
+    /* Landing / About / Contact */
+    .hero {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .feature-grid {
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 1rem;
+    }
+    .feature {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+
+    /* Responsive rules */
+    @media (min-width: 768px) {
+      .sidebar { display: flex; }
+      .bottom-nav { display: none; }
+      .main { padding: 1.5rem 2rem; padding-bottom: 2rem; }
+      .desktop-only { display: block; }
+      .filters { display: block; }
+      .mobile-header { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- AUTH SCREENS (Login + Sign up) -->
+  <section id="auth-screen" class="view active">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;">
+      <div class="panel" style="width:100%;max-width:420px;box-shadow:var(--shadow);">
+        <div class="stack" style="text-align:center;margin-bottom:1rem;">
+          <div style="display:flex;justify-content:center;">
+            <div class="avatar" style="width:48px;height:48px;border:none;">
+              <i data-lucide="zap"></i>
+              <img src="SSH logo.png" alt="Logo" style="width:100%; height:100%; object-fit: contain;">
+            </div>
+          </div>
+          <h1 class="h1" id="auth-title">Welcome Back</h1>
+          <p class="body muted" id="auth-subtitle">Sign in with your email and password</p>
+        </div>
+
+        <!-- Login -->
+        <form id="login-form">
+          <div class="field">
+            <label class="req" for="login-email">Email</label>
+            <input id="login-email" type="email" placeholder="m@example.com" required />
+            <div class="error hidden" data-error="login-email"></div>
+          </div>
+
+          <div class="field">
+            <label class="req" for="login-password">Password</label>
+            <input id="login-password" type="password" placeholder="••••••••" required minlength="6" />
+            <div class="error hidden" data-error="login-password"></div>
+          </div>
+
+          <p class="body muted" style="text-align:right;margin:-.5rem 0 .75rem;">
+  <a href="#" id="forgot-password-link"
+     style="color:var(--primary);font-weight:500;text-decoration:none;">
+    Forgot password?
+  </a>
+</p>
+
+
+          <button class="btn btn-primary btn-block" type="submit"><b>Log In</b></button>
+        </form>
+
+        <!-- Signup -->
+        <form id="signup-form" class="hidden" style="margin-top:.75rem;">
+          <div class="field">
+            <label class="req" for="signup-name">Full name</label>
+            <input id="signup-name" type="text" placeholder="Enter your name" required />
+            <div class="error hidden" data-error="signup-name"></div>
+          </div>
+
+          <div class="field">
+            <label class="req" for="signup-email">Email</label>
+            <input id="signup-email" type="email" placeholder="m@example.com" required />
+            <div class="error hidden" data-error="signup-email"></div>
+          </div>
+
+          <div class="field">
+            <label class="req" for="signup-password">Password</label>
+            <input id="signup-password" type="password" placeholder="Minimum 6 characters" required minlength="6" />
+            <div class="error hidden" data-error="signup-password"></div>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Create Account</button>
+        </form>
+        <!-- Forgot Password -->
+<form id="forgot-form" class="hidden" style="margin-top:.75rem;">
+  <div class="stack" style="text-align:center;margin-bottom:.75rem;">
+    <h1 class="h1">Reset password</h1>
+    <p class="body muted">
+      Enter your email and we’ll send you a reset link
+    </p>
+  </div>
+
+  <div class="field">
+    <label class="req" for="forgot-email">Email</label>
+    <input id="forgot-email" type="email" placeholder="m@example.com" required />
+    <div class="error hidden" data-error="forgot-email"></div>
+  </div>
+
+  <button class="btn btn-primary btn-block" type="submit">
+    Send reset link
+  </button>
+
+  <p class="body muted" style="text-align:center;margin-top:.75rem;">
+    <a href="#" id="back-to-login"
+       style="color:var(--primary);font-weight:600;text-decoration:none;">
+      Back to login
+    </a>
+  </p>
+</form>
+
+
+        <div class="divider"></div>
+
+        <p class="body muted" style="text-align:center;">
+          <span id="auth-toggle-text">Don’t have an account?</span>
+          <a href="#" id="auth-toggle-link" style="color:var(--primary);font-weight:600;text-decoration:none;">Sign up</a>
+        </p>
+
+        <p class="body muted" style="text-align:center;margin-top:.75rem;">
+          Want to browse first?
+          <a href="" id="open-landing" style="color:var(--primary);font-weight:600;text-decoration:none;">Open landing page</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP SHELL -->
+  <div id="app-shell" class="hidden">
+    <!-- Sidebar (Desktop/Tablet) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="SSH logo.png" alt="SkillSwap logo" onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin','<div class=&quot;avatar&quot; style=&quot;width:34px;height:34px;background:var(--accent);border:none;&quot;></div>')" />
+        <span>SkillSwap</span>
+      </div>
+
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="home" id="nav-home"><i data-lucide="home"></i><span>Home</span></button>
+        <button class="nav-item" data-view="browse" id="nav-browse"><i data-lucide="search"></i><span>Browse</span></button>
+        <button class="nav-item" data-view="saved" id="nav-saved"><i data-lucide="bookmark"></i><span>Saved</span></button>
+        <button class="nav-item" data-view="profile" id="nav-profile"><i data-lucide="user"></i><span>Profile</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" data-view="landing" id="nav-landing"><i data-lucide="sparkles"></i><span>Landing</span></button>
+        <button class="nav-item" data-view="about" id="nav-about"><i data-lucide="info"></i><span>About</span></button>
+        <button class="nav-item" data-view="contact" id="nav-contact"><i data-lucide="mail"></i><span>Contact</span></button>
+        <div class="divider"></div>
+        <button class="nav-item" href="testing1.html" id="logout-btn"><i data-lucide="log-out"></i><span>Log out</span></button>
+        
+      </div>
+    </aside>
+
+    <!-- Bottom navigation (Mobile) -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <button class="nav-item active" data-view="home" id="mobile-nav-home">
+    <i data-lucide="home"></i>
+  </button>
+
+  <button class="nav-item" data-view="browse" id="mobile-nav-browse">
+    <i data-lucide="search"></i>
+  </button>
+
+  <button class="nav-item" data-view="saved" id="mobile-nav-saved">
+    <i data-lucide="bookmark"></i>
+  </button>
+
+  <button class="nav-item" data-view="profile" id="mobile-nav-profile">
+    <i data-lucide="user"></i>
+  </button>
+</nav>
+
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Mobile header -->
+      <header class="mobile-header">
+        <div class="row" style="gap:.6rem;">
+          <img src="SSH logo.png" alt="SkillSwap logo" style="width:32px;height:32px;border-radius:10px;object-fit:cover;background:var(--accent);" onerror="this.style.display='none';" />
+          <span style="font-weight:700;">SkillSwap</span>
+        </div>
+
+        <button
+  class="icon-btn mobile-settings-btn"
+  data-view="profile"
+  aria-label="Open settings"
+>
+  <i data-lucide="settings"></i>
+</button>
+
+        <button class="avatar" data-view="profile" aria-label="Open profile">
+          <img src="assets/avatar.png" alt="User avatar" onerror="this.remove();" />
+          <i data-lucide="user" class="icon-sm"></i>
+        </button>
+      </header>
+
+      <!-- LANDING -->
+      <section id="view-landing" class="view hidden">
+        <div class="page-header">
+          <div class="stack" style="gap:.35rem;">
+            <h1 class="h1">Skill Swap Hub</h1>
+            <p class="body muted">Swap skills, share resources, and grow together.</p>
+          </div>
+          <div class="controls">
+            <button class="btn btn-outline" id="landing-login-btn"><i data-lucide="log-in"></i> Login</button>
+            <button class="btn btn-primary" id="landing-signup-btn"><i data-lucide="user-plus"></i> Sign up</button>
+          </div>
+        </div>
+
+        <div class="hero">
+          <h2 class="h2">A friendly, modern platform for learning and teaching.</h2>
+          <p class="body muted" style="margin-top:.75rem;">
+            Find resources, save your favorites, and post what you’ve learned — all in one clean, accessible hub.
+          </p>
+
+          <div class="feature-grid">
+            <div class="feature">
+              <div class="row"><i data-lucide="search" class="icon-sm"></i><strong>Browse & discover</strong></div>
+              <p class="body muted" style="margin-top:.4rem;">Search, filter, and explore community resources.</p>
+            </div>
+            <div class="feature">
+              <div class="row"><i data-lucide="plus-circle" class="icon-sm"></i><strong>Share resources</strong></div>
+              <p class="body muted" style="margin-top:.4rem;">Post links, guides, tutorials, and tools.</p>
+            </div>
+            <div class="feature">
+              <div class="row"><i data-lucide="heart" class="icon-sm"></i><strong>Feedback system</strong></div>
+              <p class="body muted" style="margin-top:.4rem;">Like, save, and comment to help the best rise.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:1rem;">
+          <h3 style="font-size:16px;font-weight:600;margin-bottom:.75rem;">Popular categories</h3>
+          <div class="chiplist">
+            <span class="chip">Design</span>
+            <span class="chip">Frontend</span>
+            <span class="chip">AI</span>
+            <span class="chip">Tutorials</span>
+            <span class="chip">Career</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-about" class="view hidden">
+  <div class="page-header">
+    <div class="stack" style="gap:.35rem;">
+      <h1 class="h1">About Skill Swap Hub</h1>
+      <p class="body muted">Our mission: make learning social, simple, and accessible.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="stack" style="gap: 1.5rem;">
+      <p class="body" style="color: #475569; font-size: 1.125rem; line-height: 1.75;">
+        Skill Swap Hub was born from a simple idea: <strong>developers grow faster when they learn together.</strong>
+        What started as a small internal tool for sharing Figma designs has evolved into a comprehensive platform for sharing all types of digital resources.
+      </p>
+
+      <div style="background-color: #eff6ff; padding: 2rem; border-radius: 1rem; border: 1px solid #dbeafe;">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">Our Mission</h3>
+        <p style="color: #334155; font-size: 1rem;">
+          To democratise access to high-quality development and design resources, fostering a culture of open contribution and continuous learning.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="body muted">
+        The community posts resources (articles, videos, tools), saves favorites, and gives feedback through likes and comments.
+      </p>
+      <p class="body muted italic" style="font-size: 0.8rem;">
+        This is a static demo UI (no backend). It’s designed to be consistent, responsive, and ready to connect to real data later.
+      </p>
+    </div>
+  </div>
+</section>
+
+      <!-- CONTACT -->
+      <section id="view-contact" class="view hidden">
+        <div class="page-header">
+          <div class="stack" style="gap:.35rem;">
+            <h1 class="h1">Contact Us</h1>
+            <p class="body muted">We'd love to hear from you.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <form id="contact-form">
+            <div class="field">
+              <label class="req" for="contact-name">Name</label>
+              <input id="contact-name" required />
+            </div>
+            <div class="field">
+              <label class="req" for="contact-email">Email</label>
+              <input id="contact-email" type="email" required />
+            </div>
+            <div class="field">
+              <label class="req" for="contact-msg">Message</label>
+              <textarea id="contact-msg" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit"><i data-lucide="send"></i> Send</button>
+            <p class="body muted" id="contact-success" style="margin-top:.75rem;display:none;">Thanks! Your message has been sent (demo).</p>
+          </form>
+        </div>
+      </section>
+
+     <section id="view-home" class="view active">
+
+  <!-- HEADER -->
+   <!--HOME-->
+  <div class="page-header">
+    <div>
+      <h1 class="h1" id="home-greeting">Welcome back, John</h1>
+      <p class="body muted">Personalised content based on your interests</p>
+    </div>
+
+    <div class="desktop-only row" style="gap:.5rem;">
+      <button class="icon-btn" data-view="settings" aria-label="Open settings">
+        <i data-lucide="settings"></i>
+      </button>
+
+      <div class="avatar">
+        <img src="usericon.png" alt="User avatar" />
+        <i data-lucide="user" class="icon-sm"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMO CARD (NOW SEPARATE) -->
+  <div class="promo-card promo-cta">
+    <div class="promo-content">
+      <h2 class="promo-title">
+        Post a resource and share with your community...
+      </h2>
+
+      <div class="promo-actions">
+        <button class="promo-plus" data-view="submit" aria-label="Create resource">
+          <i data-lucide="plus"></i>
+        </button>
+
+        <button class="btn btn-outline" data-view="browse">
+          <i data-lucide="search"></i> Browse
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-row"></div>
+  <div class="card-grid" id="home-cards"></div>
+
+</section>
+      </section>
+
+      <!-- BROWSE / DISCOVERY -->
+      <section id="view-browse" class="view hidden">
+        <div class="sticky">
+          <div class="searchbar">
+            <i data-lucide="search"></i>
+            <input id="global-search" placeholder="Search resources…" />
+          </div>
+
+          <div class="filter-row">
+            <button class="pill active" data-cat="All" type="button">All</button>
+            <button class="pill" data-cat="Design" type="button">Design</button>
+            <button class="pill" data-cat="Code" type="button">Code</button>
+            <button class="pill" data-cat="AI" type="button">AI</button>
+            <button class="pill" data-cat="Tutorial" type="button">Tutorials</button>
+            <button class="pill" data-cat="Game Dev">Game Dev</button>
+            <button class="pill" data-cat="Software Eng">Software Eng</button>
+            <button class="pill" data-cat="Marketing">Marketing</button>
+            <button class="pill" data-cat="E-commerce">E-commerce</button>
+            <button class="pill" data-cat="UX">UX</button>
+            <button class="pill" data-cat="Data Science">Data Science</button>
+            <button class="pill" data-cat="Security">Security</button>
+            <button class="pill" data-cat="Business">Business</button>
+            <button class="pill" data-cat="Game Dev">Game Dev</button>
+            <button class="pill" data-cat="Design">Design</button>
+            <button class="btn btn-ghost ml-auto" type="button" data-view="search">
+              See search results <i data-lucide="arrow-right" class="icon-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-grid" id="browse-grid"></div>
+      </section>
+
+      <!-- SEARCH RESULTS -->
+      <section id="view-search" class="view hidden">
+        <div class="sticky">
+          <div class="searchbar">
+            <i data-lucide="search"></i>
+            <input id="search-input" placeholder="Search resources…" value="Web Design" />
+          </div>
+          
+
+          <div class="filter-row" style="flex-wrap:nowrap;overflow:auto;">
+            <button class="pill active">All</button>
+            <button class="pill">Categories</button>
+            <button class="pill">People</button>
+            <button class="pill">Popular</button>
+            <button class="pill">Recent</button>
+          </div>
+
+          <p class="body muted" id="result-count">142 results for: Web Design</p>
+        </div>
+         <button class="btn btn-ghost" id="back-to-browse"><i data-lucide="arrow-left"></i> Back</button>
+        <div class="layout-2col">
+          <aside class="filters">
+            <h4>Category</h4>
+            <select id="filter-category">
+              <option value="All">All</option>
+              <option value="Design">Design</option>
+              <option value="Code">Code</option>
+              <option value="AI">AI</option>
+              <option value="Tutorial">Tutorial</option>
+            </select>
+
+            <div class="divider"></div>
+
+            <h4>Date</h4>
+            <select id="filter-date">
+              <option>Any time</option>
+              <option>Last week</option>
+              <option>Last month</option>
+              <option>Last year</option>
+            </select>
+
+            <div class="divider"></div>
+
+           <div class="stack" style="align-items: center; gap: 0.5rem;">
+  <h4 style="margin: 0;">Sort by</h4>
+  <select id="filter-sort">
+    <option value="pop">Popularity</option>
+    <option value="new">Newest</option>
+    <option value="old">Oldest</option>
+  </select>
+</div>
+
+            <div class="divider"></div>
+
+            <h4>Resource type</h4>
+            <label class="check"><input type="checkbox" checked> Article</label>
+            <label class="check"><input type="checkbox" checked> Video</label>
+            <label class="check"><input type="checkbox" checked> Course</label>
+          </aside>
+
+          <div class="result-list" id="search-results"></div>
+        </div>
+
+        <div id="search-empty" class="empty hidden" style="margin-top:1rem;">
+          <div class="icon"><i data-lucide="search-x"></i></div>
+          <h3 style="font-size:16px;font-weight:600;">No results found</h3>
+          <p class="body muted" style="margin-top:.4rem;">Try “UI layout”, “typography”, or “Figma basics”.</p>
+        </div>
+      </section>
+
+   
+      <section id="view-submit" class="view hidden">
+        <button
+  class="exit-btn"
+  type="button"
+  data-view="home"
+  aria-label="Close"
+>
+  <i data-lucide="x"></i>
+</button>
+
+ <!-- SUBMIT RESOURCE -->
+        <div class="page-header">
+          <div class="stack" style="gap:.35rem;">
+            <h1 class="h1">Post a Resource</h1>
+            <p class="body muted">Share something useful with the community.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <form id="submit-form">
+            <div class="field">
+              <label class="req" for="res-title">Resource title</label>
+              <input id="res-title" required placeholder="e.g. Advanced React Patterns" />
+              <div class="error hidden" data-error="res-title"></div>
+            </div>
+
+            <div class="field">
+              <label class="req" for="res-desc">Description</label>
+              <textarea id="res-desc" required placeholder="Describe the resource…"></textarea>
+              <div class="error hidden" data-error="res-desc"></div>
+            </div>
+
+            <div class="field">
+              <label class="req" for="res-cat">Category</label>
+              <select id="res-cat" required>
+                <option value="">Select a category…</option>
+                <option>Design</option>
+                <option>Code</option>
+                <option>AI</option>
+                <option>Tutorial</option>
+                   <!-- Tech -->
+    <option>Code</option>
+    <option>Web Development</option>
+    <option>Mobile Development</option>
+    <option>AI & Machine Learning</option>
+    <option>Data Science</option>
+    <option>Cybersecurity</option>
+    <option>DevOps</option>
+
+    <!-- Design & Creative -->
+    <option>Design</option>
+    <option>UI / UX</option>
+    <option>Graphic Design</option>
+    <option>Illustration</option>
+    <option>Animation</option>
+    <option>Decoration</option>
+    <option>Interior Design</option>
+
+    <!-- Career & Learning -->
+    <option>Career</option>
+    <option>Productivity</option>
+    <option>Learning Resources</option>
+    <option>Tutorials</option>
+    <option>Study Tips</option>
+
+    <!-- Lifestyle -->
+    <option>Lifestyle</option>
+    <option>Health & Wellness</option>
+    <option>Fitness</option>
+    <option>Mental Health</option>
+    <option>Mindfulness</option>
+
+    <!-- Creative Hobbies -->
+    <option>Photography</option>
+    <option>Video Editing</option>
+    <option>Music</option>
+    <option>Writing</option>
+    <option>Crafts & DIY</option>
+
+    <!-- Business & Marketing -->
+    <option>Business</option>
+    <option>Entrepreneurship</option>
+    <option>Marketing</option>
+    <option>Branding</option>
+    <option>Social Media</option>
+
+    <!-- Other -->
+    <option>Finance</option>
+    <option>Personal Development</option>
+    <option>Community</option>
+    <option>Other</option>
+              </select>
+              <div class="error hidden" data-error="res-cat"></div>
+            </div>
+
+      <div class="field">
+  <label for="res-link">Link</label>
+
+  <div class="input-with-icon">
+    <input
+      id="res-link"
+      type="url"
+      placeholder="https://… Paste the link here"
+    />
+
+    <button
+      type="button"
+      class="icon-btn copy-btn"
+      id="copy-link-btn"
+      aria-label="Copy link"
+      title="Copy link"
+    >
+      <i data-lucide="link"></i>
+    </button>
+  </div>
+</div>
+
+            <!-- Cover Image Upload -->
+<div class="field">
+  <label>Cover Image</label>
+
+  <label class="cover-upload" for="cover-input">
+    <div class="cover-placeholder">
+      <i data-lucide="upload-cloud"></i>
+      <span>Click to upload</span>
+    </div>
+    <img id="cover-preview" alt="" />
+  </label>
+
+  <input
+    type="file"
+    id="cover-input"
+    accept="image/*"
+    hidden
+  />
+</div>
+
+            <button class="btn btn-primary" type="submit"><i data-lucide="upload"></i> Submit</button>
+            <p class="body muted" id="submit-success" style="display:none;margin-top:.75rem;">Submitted! (demo) Added to your Contributions.</p>
+          </form>
+        </div>
+      </section>
+
+      <!-- SAVED / BOOKMARKS -->
+      <section id="view-saved" class="view hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="h1">Your Bookmarks</h1>
+            <p class="body muted">Saved resources for quick access.</p>
+          </div>
+
+          <div class="controls row">
+
+  <!-- Grid toggle -->
+  <button class="btn btn-outline" id="toggle-view">
+    <i data-lucide="layout-grid"></i>
+    <span id="toggle-label">Grid</span>
+  </button>
+
+  <!-- Sort (styled like button) -->
+  <div class="select-pill">
+    <i data-lucide="calendar"></i>
+    <select class="sort" id="bookmark-sort" aria-label="Sort bookmarks">
+      <option value="new">Newest</option>
+      <option value="added">Added date</option>
+      <option value="pop">Popularity</option>
+      <option value="az">Title (A–Z)</option>
+    </select>
+  </div>
+
+</div>
+
+        </div>
+
+        <div class="filter-row">
+          <button class="pill active" data-saved-cat="All">All</button>
+          <button class="pill" data-saved-cat="Design">Design</button>
+          <button class="pill" data-saved-cat="Code">Code</button>
+          <button class="pill" data-saved-cat="AI">AI</button>
+          <button class="pill" data-saved-cat="Tutorial">Tutorials</button>
+          <button class="pill" data-saved-cat="Game Dev">Game Dev</button>
+          <button class="pill" data-saved-cat="Software Eng">Software Eng</button>
+          <button class="pill" data-saved-cat="Marketing">Marketing</button>
+          <button class="pill" data-saved-cat="E-commerce">E-commerce</button>
+          <button class="pill" data-saved-cat="UX">UX</button>
+          <button class="pill" data-saved-cat="Data Science">Data Science</button>
+          <button class="pill" data-saved-cat="Security">Security</button>
+          <button class="pill" data-saved-cat="Business">Business</button>
+          <button class="pill" data-saved-cat="Game Dev">Game Dev</button>
+          <button class="pill" data-saved-cat="Design">Design</button>
+        </div>
+
+        <div id="saved-container" class="card-grid"></div>
+
+        <div id="saved-empty" class="empty hidden" style="margin-top:1rem;">
+          <div class="icon"><i data-lucide="bookmark"></i></div>
+          <h3 style="font-size:16px;font-weight:600;">No bookmarks yet.</h3>
+          <p class="body muted" style="margin-top:.4rem;">Explore resources and save your favorites here.</p>
+          <button class="btn btn-primary" type="button" data-view="browse" style="margin-top:.75rem;">
+            Explore resources
+          </button>
+        </div>
+
+      </section>
+
+      <!-- PROFILE -->
+      <section id="view-profile" class="view hidden">
+        <div class="cover"></div>
+
+        <div class="profile-bar">
+          <div class="avatar-lg">
+            <img id="profile-avatar-img" src="assets/avatar.png" alt="Profile photo" onerror="this.remove();" />
+          </div>
+
+          <div class="profile-info">
+            <h1 class="h1" id="profile-name-title">Enter your username</h1>
+            <p class="body muted" id="profile-pronouns-title">He/Him</p>
+          </div>
+
+          <button class="btn btn-outline" data-view="contributions"><i data-lucide="layers"></i> Contributions</button>
+        </div>
+
+        <div class="profile-grid" style="margin-top:1.25rem;">
+          <!-- Optional sidebar (desktop only) -->
+          <div class="panel desktop-only">
+            <h3>Stats</h3>
+            <div class="row" style="justify-content:space-between;">
+              <span class="muted body">Contributions</span>
+              <strong id="stat-contrib">0</strong>
+            </div>
+            <div class="row" style="justify-content:space-between;margin-top:.5rem;">
+              <span class="muted body">Followers</span>
+              <strong id="stat-followers">12</strong>
+            </div>
+          </div>
+
+          <!-- Editable profile -->
+          <div class="panel">
+            <h3>Editable Profile</h3>
+            <form id="profile-form">
+              <div class="field">
+                <label class="req" for="pf-name">Full name</label>
+                <input id="pf-name" required />
+              </div>
+
+              <div class="field">
+                <label class="req" for="pf-email">Email</label>
+                <input id="pf-email" type="email" required />
+              </div>
+
+              <div class="field">
+                <label for="pf-pronouns">Pronouns</label>
+                <input id="pf-pronouns" placeholder="e.g. She/Her" />
+              </div>
+
+              <div class="field">
+                <label for="pf-phone">Phone number</label>
+                <input id="pf-phone" placeholder="+44…" />
+              </div>
+
+              <div class="field"></div>
+                <label for="pf-bio">Bio</label>
+                <textarea id="pf-bio" placeholder="Tell us about yourself…"></textarea>
+
+              <div class="field">
+                <label for="pf-photo">Profile photo upload</label>
+                <input id="pf-photo" type="file" accept="image/*" />
+                <p class="body muted" style="margin-top:.4rem;">UI only (stores preview locally).</p>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="field">
+                <label>Hobbies / skills</label>
+                <div class="row">
+                  <input id="skill-input" placeholder="Add a skill (e.g. HTML)" />
+                  <button class="btn btn-outline" type="button" id="add-skill"><i data-lucide="plus"></i> Add</button>
+                </div>
+                <div class="chiplist" id="skill-list" style="margin-top:.75rem;"></div>
+              </div>
+
+              <button class="btn btn-primary" type="submit"><i data-lucide="save"></i> Save profile</button>
+              <p class="body muted" id="profile-saved" style="display:none;margin-top:.6rem;">Saved! (demo)</p>
+            </form>
+          </div>
+        </div>
+        <a class="nav-item hover-primary" href="testing1.html" id="logout-btn">
+  <i data-lucide="log-out"></i>
+  <span>Log out</span>
+</a>
+
+      </section>
+
+      <!-- CONTRIBUTIONS -->
+      <section id="view-contributions" class="view hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="h1">Your Contributions</h1>
+            <p class="body muted">View and manage all resources you’ve published.</p>
+          </div>
+
+          <button class="btn btn-primary" data-view="submit"><i data-lucide="plus"></i> Create New Resource</button>
+        </div>
+
+        <div class="filter-row" style="overflow:auto;flex-wrap:nowrap;">
+          <button class="pill active" data-contrib-tab="All">All</button>
+          <button class="pill" data-contrib-tab="Published">Published</button>
+          <button class="pill" data-contrib-tab="Draft">Drafts</button>
+          <button class="pill" data-contrib-tab="Archived">Archived</button>
+        </div>
+
+        <div class="layout-2col">
+          <aside class="filters desktop-only" style="display:block;">
+            <h4>User</h4>
+            <div class="row" style="margin-top:.75rem;">
+              <div class="avatar"><img src="assets/avatar.png" alt="" onerror="this.remove();"></div>
+              <div>
+                <div style="font-weight:600;" id="contrib-user-name">Aof Kraj</div>
+                <div class="muted" style="font-size:13px;">
+                  <span id="contrib-count">0</span> contributions • <span id="contrib-followers">12</span> followers
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <h4>Tip</h4>
+            <p class="body muted">Delete is inside a dropdown to prevent accidental clicks.</p>
+          </aside>
+
+          <div class="stack" style="flex:1;">
+            <div id="contrib-grid" class="card-grid"></div>
+
+            <div id="contrib-empty" class="empty hidden">
+              <div class="icon"><i data-lucide="sparkles"></i></div>
+              <h3 style="font-size:16px;font-weight:600;">No contributions yet.</h3>
+              <p class="body muted" style="margin-top:.4rem;">Share your first resource to help the community.</p>
+              <button class="btn btn-primary" data-view="submit" style="margin-top:.75rem;">Create New Resource</button>
+            </div>
+
+            <button class="btn btn-outline" id="load-more" type="button" style="width:max-content;">
+              <i data-lucide="chevron-down"></i> Load more
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESOURCE DETAIL (comments + like/save) -->
+      <section id="view-resource" class="view hidden">
+        <div class="page-header">
+          <button onclick="navigate('browse')" class="p-2 -ml-2 flex items-center gap-2 hover:opacity-70 transition-opacity">
+  <i data-lucide="arrow-left" class="w-5 h-5"></i>
+  <span class="font-medium">Back</span>
+</button>
+
+          <div class="controls">
+            <button class="btn btn-outline" id="detail-like"><i data-lucide="heart"></i> <span id="detail-like-count">0</span></button>
+            <button class="btn btn-outline" id="detail-save"><i data-lucide="bookmark"></i> Save</button>
+            <a class="btn btn-primary" id="detail-link" href="#" target="_blank" rel="noreferrer"><i data-lucide="external-link"></i> Open</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="row" style="justify-content:space-between;align-items:flex-start;">
+            <div>
+              <div class="muted" style="font-size:13px;margin-bottom:.25rem;" id="detail-category">Category</div>
+              <h1 class="h1" style="font-size:26px;" id="detail-title">Resource Title</h1>
+              <p class="body muted" style="margin-top:.6rem;" id="detail-desc">Description…</p>
+              <div class="tags" id="detail-tags"></div>
+            </div>
+
+            <div class="author" style="margin-top:.25rem;">
+              <img src="assets/avatar.png" alt="" onerror="this.remove();">
+              <span id="detail-author">Author</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="font-size:16px;font-weight:600;">Comments</h3>
+          <form id="comment-form" style="margin-top:.75rem;">
+            <div class="field">
+              <label class="req" for="comment-text">Add a comment</label>
+              <textarea id="comment-text" required placeholder="Write something helpful…"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit"><i data-lucide="message-circle"></i> Post comment</button>
+          </form>
+
+          <div class="divider"></div>
+          <div id="comment-list" class="stack"></div>
+        </div>
+      </section>
+     <section id="view-settings" class="view hidden">
+  <div class="page-header" style="margin-bottom: 2rem;">
+    <div class="stack" style="gap:.35rem;">
+      <h1 class="h1">Settings</h1>
+      <p class="body muted">Manage your preferences and account</p>
+    </div>
+
+    <button
+      class="btn btn-ghost"
+      data-view="home"
+      aria-label="Back to home"
+      style="display: flex; align-items: center; gap: 0.5rem;"
+    >
+      <i data-lucide="arrow-left" style="width: 18px;"></i> Back
+    </button>
+  </div>
+
+  <div class="stack" style="gap: 1.25rem; max-width: 600px;">
+    
+    <div class="panel settings-group">
+      <div class="settings-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+        <div class="icon-box blue" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #eff6ff; color: #3b82f6;">
+          <i data-lucide="palette" style="width: 20px;"></i>
+        </div>
+        <div>
+          <h3 class="h3" style="margin:0;">Appearance</h3>
+          <p class="body muted small" style="font-size: 0.85rem;">Control how the app looks.</p>
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 1rem 0;"></div>
+
+      <label class="settings-row" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+        <span class="body">Dark mode</span>
+        <div class="switch">
+          <input type="checkbox" id="toggle-theme" />
+          <span class="slider"></span>
+        </div>
+      </label>
+    </div>
+
+    <div class="panel settings-group">
+      <div class="settings-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+        <div class="icon-box purple" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #f5f3ff; color: #8b5cf6;">
+          <i data-lucide="user" style="width: 20px;"></i>
+        </div>
+        <div>
+          <h3 class="h3" style="margin:0;">Account</h3>
+          <p class="body muted small" style="font-size: 0.85rem;">Manage your account information.</p>
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 1rem 0;"></div>
+
+      <div class="stack" style="gap: 0.75rem;">
+        <button class="btn btn-outline btn-block" data-view="profile" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <span>Edit profile</span>
+          <i data-lucide="chevron-right" style="width: 16px;"></i>
+        </button>
+
+        <button class="btn btn-outline btn-block" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <span>Change password</span>
+          <i data-lucide="chevron-right" style="width: 16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel settings-group">
+      <div class="settings-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+        <div class="icon-box red" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #fef2f2; color: #ef4444;">
+          <i data-lucide="log-out" style="width: 20px;"></i>
+        </div>
+        <div>
+          <h3 class="h3" style="margin:0;">Session</h3>
+          <p class="body muted small" style="font-size: 0.85rem;">Manage your login status.</p>
+        </div>
+      </div>
+
+      <div class="divider" style="margin: 1rem 0;"></div>
+      <a
+  href="testing1.html"
+  onclick="localStorage.clear()"
+  class="btn btn-outline btn-block"
+  style="color:#ef4444;border-color:#fee2e2;width:100%;display:inline-block;text-align:center;"
+>
+  Log out
+</a>
+
+    </div>
+    <button id="save-settings" class="btn btn-primary" style="padding: 0.75rem 2rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="save" style="width: 18px;"></i>
+        Save Changes
+      </button>
+  </div>
+</section>
+    </main>
+
+    <!-- Bottom nav (Mobile, icons only) -->
+    <nav class="bottom-nav" aria-label="Bottom navigation">
+      <button class="nav-item active" data-view="home" id="mobile-nav-home" aria-label="Home"><i data-lucide="home"></i><span>Home</span></button>
+      <button class="nav-item" data-view="browse" id="mobile-nav-browse" aria-label="Browse"><i data-lucide="search"></i><span>Browse</span></button>
+      <button class="nav-item" data-view="saved" id="mobile-nav-saved" aria-label="Saved"><i data-lucide="bookmark"></i><span>Saved</span></button>
+      <button class="nav-item" data-view="profile" id="mobile-nav-profile" aria-label="Profile"><i data-lucide="user"></i><span>Profile</span></button>
+    </nav>
+  </div>
+
+  <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-300 py-12 mt-auto">
+        <div class="container mx-auto px-4 grid md:grid-cols-4 gap-8">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2">
+  <img
+    src="logo.png"
+    alt="Your App Logo"
+    class="h-8 w-8 object-contain"
+  />
+  <span class="text-lg font-semibold">SkillSwap</span>
+</div>
+                <p class="text-sm text-slate-400 max-w-xs">Building the largest open-source community for developers and designers to share resources.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" onclick="navTo('browse')" class="hover:text-white">Browse</a></li>
+                    <li><a href="#" onclick="navTo('auth')" class="hover:text-white">Sign In</a></li>
+                    <li><a href="#" onclick="navTo('about')" class="hover:text-white">About Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-4">Support</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" onclick="navTo('contact')" class="hover:text-white">Contact</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+            © 2025 Skill Swap Hub. All rights reserved.
+        </div>
+    </footer>
+
+  <script>
+    // -----------------------
+    // Demo data + state
+    // -----------------------
+    const state = {
+      isAuthed: false,
+      user: {
+        name: "Aof Kraj",
+        email: "demo@example.com",
+        pronouns: "He/Him",
+        phone: "",
+        followers: 12,
+        skills: ["React", "TypeScript", "UI Design"],
+        avatarDataUrl: null,
+      },
+      resources: [
+        {
+          id: "r1",
+          category: "Design",
+          title: "Web Design Principles",
+          desc: "Fundamental principles of web design including layout, spacing, and hierarchy.",
+          author: "Alice Smith",
+          img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+          rating: 4.8,
+          likes: 124,
+          saves: 52,
+          tags: ["Design", "UI", "Beginner"],
+          link: "https://developer.mozilla.org/",
+        },
+        {
+          id: "r2",
+          category: "AI",
+          title: "Machine Learning Intro",
+          desc: "Start your journey into AI and Machine Learning with beginner-friendly steps.",
+          author: "Elena Ray",
+          img: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&q=80&w=800",
+          rating: 5.0,
+          likes: 89,
+          saves: 31,
+          tags: ["AI", "ML", "Starter"],
+          link: "https://www.kaggle.com/learn",
+        },
+        {
+          id: "r3",
+          category: "Code",
+          title: "HTML & CSS Validation Checklist",
+          desc: "Practical checklist to keep markup clean, accessible, and standards-friendly.",
+          author: "Sarah Green",
+          img: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80&w=800",
+          rating: 4.7,
+          likes: 203,
+          saves: 77,
+          tags: ["Code", "HTML", "Accessibility"],
+          link: "https://validator.w3.org/",
+        },
+        {
+          id: "r4",
+          category: "Tutorial",
+          title: "Responsive Layouts: A Quick Guide",
+          desc: "Learn breakpoints, flexible grids, and mobile-first layouts with practical examples.",
+          author: "Mike Tech",
+          img: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&q=80&w=800",
+          rating: 4.6,
+          likes: 58,
+          saves: 19,
+          tags: ["Tutorial", "CSS", "Responsive"],
+          link: "https://web.dev/responsive-web-design-basics/",
+        },
+        {
+  id: "r5",
+  category: "Game Dev",
+  title: "Game Development Basics",
+  desc: "Learn core game development concepts including engines, mechanics, and level design.",
+  author: "Chris Nolan",
+  img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
+  rating: 4.6,
+  likes: 42,
+  saves: 17,
+  tags: ["Game Dev", "Unity", "Game Design"],
+  link: "https://unity.com/learn/game-development",
+},
+{
+  id: "r6",
+  category: "Software Eng",
+  title: "Software Engineering Fundamentals",
+  desc: "Learn clean code principles, system design basics, and software engineering best practices.",
+  author: "Priya Patel",
+  img: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&q=80",
+  rating: 4.9,
+  likes: 64,
+  saves: 28,
+  tags: ["Software Engineering", "Clean Code", "System Design"],
+  link: "https://roadmap.sh/software-engineer",
+},
+{
+  id: "r7",
+  category: "Marketing",
+  title: "Marketing Campaign Strategy",
+  desc: "Learn how to plan, launch, and optimize marketing campaigns using real-world digital strategies.",
+  author: "Sophia Lee",
+  img: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&q=80&w=800",
+  rating: 4.7,
+  likes: 51,
+  saves: 23,
+  tags: ["Marketing", "Campaigns", "Digital Strategy"],
+  link: "https://blog.hubspot.com/marketing/marketing-campaign",
+},
+{
+  id: "r8",
+  category: "UX",
+  title: "UX Research Fundamentals",
+  desc: "Learn how to conduct effective user research using interviews, surveys, and usability testing.",
+  author: "Laura Chen",
+  img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&q=80&w=800",
+  rating: 4.8,
+  likes: 67,
+  saves: 29,
+  tags: ["UX", "User Research", "Usability"],
+  link: "https://www.nngroup.com/articles/ux-research-cheat-sheet/",
+},
+{
+  id: "r9",
+  category: "Data Science",
+  title: "Data Science with Python",
+  desc: "A practical introduction to data analysis, visualization, and machine learning using Python.",
+  author: "Alex Johnson",
+  img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+  rating: 4.9,
+  likes: 82,
+  saves: 41,
+  tags: ["Data Science", "Python", "Analytics"],
+  link: "https://www.datacamp.com/tracks/data-scientist-with-python",
+},
+{
+  id: "r10",
+  category: "Security",
+  title: "Cybersecurity Basics",
+  desc: "Understand core cybersecurity concepts including threats, encryption, and secure systems.",
+  author: "Marcus Hill",
+  img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+  rating: 4.6,
+  likes: 44,
+  saves: 18,
+  tags: ["Security", "Cybersecurity", "Networking"],
+  link: "https://www.cloudflare.com/learning/security/what-is-cybersecurity/",
+},
+{
+  id: "r11",
+  category: "E-commerce",
+  title: "E-commerce Store Fundamentals",
+  desc: "Learn how to build, launch, and optimize an online store including product pages, payments, and conversions.",
+  author: "Daniel Foster",
+  img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800",
+  rating: 4.8,
+  likes: 73,
+  saves: 36,
+  tags: ["E-commerce", "Online Store", "Business"],
+  link: "https://www.shopify.com/learn/how-to-start-an-online-store",
+},
+{
+  id: "r12",
+  category: "Game Dev",
+  title: "2D Game Development with Unity",
+  desc: "Learn how to build 2D games using Unity, covering sprites, physics, animations, and basic game mechanics.",
+  author: "Alex Morgan",
+  img: "https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=800&q=80",
+  rating: 4.7,
+  likes: 59,
+  saves: 27,
+  tags: ["Game Dev", "Unity", "2D Games"],
+  link: "https://learn.unity.com/pathway/junior-programmer",
+},
+{
+  id: "r13",
+  category: "Design",
+  title: "Web Design Principles: Layout & Hierarchy",
+  desc: "Understand core web design principles to create clear and usable interfaces.",
+  author: "Emma Wilson",
+  img: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&q=80&w=800",
+  rating: 4.8,
+  likes: 92,
+  saves: 44,
+  tags: ["Design", "Web Design", "UI"],
+  link: "https://www.interaction-design.org/literature/topics/web-design",
+}
+
+
+
+
+
+
+      ],
+      saved: new Set(["r1"]),
+      liked: new Set(),
+      comments: {
+        r1: [{ by: "Sam", text: "Super helpful breakdown — the spacing tips are gold." }],
+        r2: [],
+        r3: [],
+        r4: [],
+      },
+      contributions: [
+        // starts empty; submit adds Published demo entries
+      ],
+      contribTab: "All",
+      savedView: "grid",
+      savedFilter: "All",
+      browseFilter: "All",
+      browseQuery: "",
+      searchQuery: "Web Design",
+      activeResourceId: null,
+      browseBackView: "browse",
+    };
+
+    // -----------------------
+    // DOM helpers
+    // -----------------------
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    function show(el) { el.classList.remove("hidden"); }
+    function hide(el) { el.classList.add("hidden"); }
+
+    function setActiveNav(viewId) {
+      $$(".sidebar .nav-item, .bottom-nav .nav-item").forEach(b => b.classList.remove("active"));
+      $(`#nav-${viewId}`)?.classList.add("active");
+      $(`#mobile-nav-${viewId}`)?.classList.add("active");
+    }
+
+    function navigate(viewId) {
+      // Auth screen is separate
+      if (viewId === "auth") {
+        $$(".view").forEach(v => v.classList.remove("active"));
+        $("#auth-screen").classList.add("active");
+        $("#app-shell").classList.add("hidden");
+        lucide.createIcons();
+        return;
+      }
+
+      $("#auth-screen").classList.remove("active");
+      $("#app-shell").classList.remove("hidden");
+
+      $$(".main .view").forEach(v => { v.classList.remove("active"); v.classList.add("hidden"); });
+      const target = $(`#view-${viewId}`);
+      if (target) {
+        target.classList.remove("hidden");
+        target.classList.add("active");
+        $(".main")?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      setActiveNav(viewId);
+      lucide.createIcons();
+    }
+
+    // -----------------------
+    // Validation helpers
+    // -----------------------
+    function setFieldError(key, msg) {
+      const el = document.querySelector(`[data-error="${key}"]`);
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.toggle("hidden", !msg);
+    }
+
+    function clearErrors(keys) {
+      keys.forEach(k => setFieldError(k, ""));
+    }
+
+    // -----------------------
+    // Renderers
+    // -----------------------
+    function resourceCardHTML(r, { showActions=false, isBookmarked=false } = {}) {
+      return `
+        <article class="card" data-resource="${r.id}">
+          <div class="card-media">
+            <img src="${r.img}" alt="${escapeHtml(r.title)}">
+            <span class="badge">${escapeHtml(r.category)}</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${escapeHtml(r.title)}</h3>
+            <p class="card-desc">${escapeHtml(r.desc)}</p>
+
+            <div class="card-meta">
+              <div class="author">
+                <img src="assets/avatar.png" alt="" onerror="this.remove();">
+                <span>${escapeHtml(r.author)}</span>
+              </div>
+
+              <div class="stats">
+                <span class="stat"><i data-lucide="star" class="icon-xs"></i>${r.rating.toFixed(1)}</span>
+                <button class="icon-btn" data-like="${r.id}" aria-label="Like">
+                  <i data-lucide="heart" class="icon-sm"></i>
+                </button>
+                <button class="icon-btn ${isBookmarked ? "favorite active" : ""}" data-save="${r.id}" aria-label="Save">
+                  <i data-lucide="${isBookmarked ? "bookmark-check" : "bookmark"}" class="icon-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            ${showActions ? `
+              <div class="quick-actions">
+                <button class="btn btn-outline" data-open="${r.id}"><i data-lucide="eye"></i> Preview</button>
+                <a class="btn btn-primary" href="${r.link}" target="_blank" rel="noreferrer"><i data-lucide="external-link"></i> Open</a>
+              </div>
+            ` : ``}
+          </div>
+        </article>
+      `;
+    }
+
+    function bindNav() {
+  const navButtons = document.querySelectorAll('.nav-item');
+  
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // 1. Remove active class from all buttons
+      navButtons.forEach(b => b.classList.remove('active'));
+      
+      // 2. Add active class to the clicked button
+      btn.classList.add('active');
+      
+      // 3. Navigate to the view
+      const targetView = btn.getAttribute('data-view');
+      navigate(targetView);
+    });
+  });
+}
+
+function renderHome() {
+      $("#home-greeting").textContent = `Welcome back, ${state.user.name.split(" ")[0] || "User"}`;
+      const home = $("#home-cards");
+      home.innerHTML = state.resources.slice(0, 6).map(r =>
+        resourceCardHTML(r, { showActions:true, isBookmarked: state.saved.has(r.id) })
+      ).join("");
+      lucide.createIcons();
+    }
+
+
+    function matchesFilter(r, cat, q) {
+      const okCat = cat === "All" || r.category === cat;
+      const query = (q || "").trim().toLowerCase();
+      const okQ = !query || (r.title + " " + r.desc + " " + r.tags.join(" ")).toLowerCase().includes(query);
+      return okCat && okQ;
+    }
+
+    function renderBrowse() {
+      const grid = $("#browse-grid");
+      const list = state.resources.filter(r => matchesFilter(r, state.browseFilter, state.browseQuery));
+      grid.innerHTML = list.map(r => resourceCardHTML(r, { showActions:true, isBookmarked: state.saved.has(r.id) })).join("");
+      lucide.createIcons();
+    }
+
+    function renderSearch() {
+      const q = ($("#search-input").value || "").trim();
+      state.searchQuery = q;
+      const list = state.resources.filter(r => matchesFilter(r, "All", q));
+      $("#result-count").textContent = `${list.length} results for: ${q || "All"}`;
+
+      const wrap = $("#search-results");
+      wrap.innerHTML = list.map(r => `
+        <article class="result-card" data-resource="${r.id}">
+          <div class="row" style="justify-content:space-between;align-items:flex-start;">
+            <div style="flex:1;">
+              <div class="muted" style="font-size:12px;font-weight:700;">${escapeHtml(r.category)}</div>
+              <div class="card-title" style="font-size:16px;">${escapeHtml(r.title)}</div>
+              <div class="card-desc" style="margin-top:.25rem;">${escapeHtml(r.desc)}</div>
+              <div class="tags">
+                ${r.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
+              </div>
+            </div>
+            <button class="icon-btn ${state.saved.has(r.id) ? "favorite active" : ""}" data-save="${r.id}" aria-label="Save">
+              <i data-lucide="${state.saved.has(r.id) ? "bookmark-check" : "bookmark"}"></i>
+            </button>
+          </div>
+
+          <div class="result-footer">
+            <div class="author">
+              <img src="assets/avatar.png" alt="" onerror="this.remove();">
+              <span>${escapeHtml(r.author)}</span>
+            </div>
+            <div class="stats">
+              <span class="stat"><i data-lucide="star" class="icon-xs"></i>${r.rating.toFixed(1)}</span>
+              <span class="stat"><i data-lucide="heart" class="icon-xs"></i>${r.likes}</span>
+              <span class="stat"><i data-lucide="repeat-2" class="icon-xs"></i>${r.saves}</span>
+              <button class="btn btn-outline" data-open="${r.id}"><i data-lucide="eye"></i> Open</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      if (list.length === 0) show($("#search-empty"));
+      else hide($("#search-empty"));
+
+      lucide.createIcons();
+    }
+
+    function renderSaved() {
+      const container = $("#saved-container");
+      let list = state.resources.filter(r => state.saved.has(r.id));
+      if (state.savedFilter !== "All") list = list.filter(r => r.category === state.savedFilter);
+
+      if ($("#bookmark-sort").value === "az") {
+        list.sort((a,b) => a.title.localeCompare(b.title));
+      } else if ($("#bookmark-sort").value === "pop") {
+        list.sort((a,b) => (b.likes + b.saves) - (a.likes + a.saves));
+      }
+
+      if (list.length === 0) {
+        hide(container);
+        show($("#saved-empty"));
+        return;
+      }
+      show(container);
+      hide($("#saved-empty"));
+
+      container.classList.toggle("list-view", state.savedView === "list");
+      container.classList.toggle("card-grid", state.savedView !== "list");
+
+      container.innerHTML = list.map(r => {
+        const isBookmarked = true;
+        const extra = state.savedView === "list" ? `
+          <div class="quick-actions">
+            <button class="btn btn-outline" data-share="${r.id}"><i data-lucide="share-2"></i> Share</button>
+            <button class="btn btn-outline" data-remove-bookmark="${r.id}"><i data-lucide="trash-2"></i> Remove</button>
+          </div>
+        ` : ``;
+
+        return `
+          <article class="card bookmark-card" data-resource="${r.id}" data-bookmark>
+            <div class="card-media">
+              <img src="${r.img}" alt="${escapeHtml(r.title)}">
+              <span class="badge">${escapeHtml(r.category)}</span>
+            </div>
+            <div class="card-body">
+              <div class="bookmark-top">
+                <h3 class="card-title">${escapeHtml(r.title)}</h3>
+                <button class="icon-btn favorite active" data-remove-bookmark="${r.id}" aria-label="Remove bookmark">
+                  <i data-lucide="bookmark-check"></i>
+                </button>
+              </div>
+              <p class="card-desc">${escapeHtml(r.desc)}</p>
+
+              <div class="card-meta">
+                <div class="author">
+                  <img src="assets/avatar.png" alt="" onerror="this.remove();">
+                  <span>${escapeHtml(r.author)}</span>
+                </div>
+                <button class="btn btn-primary" data-open="${r.id}"><i data-lucide="eye"></i> Open</button>
+              </div>
+
+              ${extra}
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      lucide.createIcons();
+    }
+
+    function renderProfile() {
+      $("#pf-name").value = state.user.name;
+      $("#pf-email").value = state.user.email;
+      $("#pf-pronouns").value = state.user.pronouns || "";
+      $("#pf-phone").value = state.user.phone || "";
+
+      $("#profile-name-title").textContent = state.user.name || "User";
+      $("#profile-pronouns-title").textContent = state.user.pronouns || "";
+
+      $("#stat-followers").textContent = state.user.followers;
+      $("#stat-contrib").textContent = state.contributions.length;
+
+      $("#contrib-user-name").textContent = state.user.name;
+      $("#contrib-followers").textContent = state.user.followers;
+      $("#contrib-count").textContent = state.contributions.length;
+
+      // Avatar preview if uploaded
+      if (state.user.avatarDataUrl) {
+        $("#profile-avatar-img")?.setAttribute("src", state.user.avatarDataUrl);
+      }
+
+      renderSkills();
+    }
+
+    function renderSkills() {
+      const list = $("#skill-list");
+      list.innerHTML = state.user.skills.map((s, idx) => `
+        <span class="chip">
+          ${escapeHtml(s)}
+          <button type="button" data-remove-skill="${idx}" aria-label="Remove ${escapeHtml(s)}">
+            <i data-lucide="x" class="icon-xs"></i>
+          </button>
+        </span>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    function renderContributions() {
+      $("#contrib-count").textContent = state.contributions.length;
+      $("#stat-contrib").textContent = state.contributions.length;
+
+      let list = [...state.contributions];
+      const tab = state.contribTab;
+
+      if (tab === "Published") list = list.filter(x => x.status === "Published");
+      if (tab === "Draft") list = list.filter(x => x.status === "Draft");
+      if (tab === "Archived") list = list.filter(x => x.status === "Archived");
+
+      const grid = $("#contrib-grid");
+      if (list.length === 0) {
+        hide(grid);
+        show($("#contrib-empty"));
+      } else {
+        show(grid);
+        hide($("#contrib-empty"));
+        grid.innerHTML = list.map(item => {
+          const statusClass = item.status.toLowerCase();
+          return `
+            <article class="card" data-contrib="${item.id}">
+              <div class="card-body">
+                <div class="row" style="justify-content:space-between;align-items:flex-start;">
+                  <div>
+                    <div class="row" style="gap:.5rem;flex-wrap:wrap;">
+                      <span class="badge" style="position:static;display:inline-flex;">${escapeHtml(item.category)}</span>
+                      <span class="status ${statusClass}">
+                        <i data-lucide="circle-dot" class="icon-xs"></i> ${escapeHtml(item.status)}
+                      </span>
+                    </div>
+                    <div class="card-title" style="margin-top:.6rem;">${escapeHtml(item.title)}</div>
+                    <div class="muted" style="font-size:13px;margin-top:.25rem;">
+                      ${escapeHtml(item.date)}
+                    </div>
+                  </div>
+
+                  <div class="mini-actions">
+                    <button class="icon-btn" data-preview-link="${item.id}" aria-label="Preview link">
+                      <i data-lucide="external-link"></i>
+                    </button>
+
+                    <button class="btn btn-outline" data-edit="${item.id}"><i data-lucide="pencil"></i> Edit</button>
+                    <button class="btn btn-outline" data-archive="${item.id}"><i data-lucide="archive"></i> Archive</button>
+
+                    <div class="dropdown">
+                      <button class="icon-btn" data-menu="${item.id}" aria-label="More">
+                        <i data-lucide="more-vertical"></i>
+                      </button>
+                      <div class="menu" id="menu-${item.id}">
+                        <button type="button" data-delete="${item.id}" class="danger">
+                          <i data-lucide="trash-2"></i> Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+      lucide.createIcons();
+    }
+
+    function renderResourceDetail(resourceId) {
+      const r = state.resources.find(x => x.id === resourceId);
+      if (!r) return;
+
+      state.activeResourceId = r.id;
+      $("#detail-category").textContent = r.category;
+      $("#detail-title").textContent = r.title;
+      $("#detail-desc").textContent = r.desc;
+      $("#detail-author").textContent = r.author;
+      $("#detail-link").href = r.link;
+
+      $("#detail-like-count").textContent = r.likes + (state.liked.has(r.id) ? 1 : 0);
+
+      $("#detail-tags").innerHTML = r.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+
+      // Button states
+      $("#detail-save").classList.toggle("btn-primary", state.saved.has(r.id));
+      $("#detail-save").classList.toggle("btn-outline", !state.saved.has(r.id));
+
+      $("#detail-like").classList.toggle("btn-primary", state.liked.has(r.id));
+      $("#detail-like").classList.toggle("btn-outline", !state.liked.has(r.id));
+
+      renderComments(r.id);
+      lucide.createIcons();
+    }
+
+    function renderComments(resourceId) {
+      const list = $("#comment-list");
+      const comments = state.comments[resourceId] || [];
+      if (comments.length === 0) {
+        list.innerHTML = `<p class="body muted">No comments yet. Be the first!</p>`;
+        return;
+      }
+      list.innerHTML = comments.map(c => `
+        <div class="panel" style="background:var(--bg-main);">
+          <div class="row" style="justify-content:space-between;">
+            <div class="row">
+              <div class="avatar"><i data-lucide="user" class="icon-sm"></i></div>
+              <strong style="font-size:14px;">${escapeHtml(c.by)}</strong>
+            </div>
+          </div>
+          <p class="body muted" style="margin-top:.5rem;">${escapeHtml(c.text)}</p>
+        </div>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    // -----------------------
+    // Events
+    // -----------------------
+    function bindNav() {
+      // nav buttons
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-view]");
+        if (btn) {
+          e.preventDefault();
+          const view = btn.getAttribute("data-view");
+          if (!view) return;
+          navigate(view);
+
+          if (view === "browse") renderBrowse();
+          if (view === "saved") renderSaved();
+          if (view === "profile") { renderProfile(); }
+          if (view === "contributions") { renderProfile(); renderContributions(); }
+          if (view === "home") renderHome();
+          if (view === "search") renderSearch();
+        }
+      });
+
+      // logout
+      $("#logout-btn").addEventListener("click", () => {
+        state.isAuthed = false;
+        navigate("auth");
+        // reset auth UI to login
+        showLogin();
+      });
+
+      // landing buttons
+      $("#landing-login-btn").addEventListener("click", () => { navigate("auth"); showLogin(); });
+      $("#landing-signup-btn").addEventListener("click", () => { navigate("auth"); showSignup(); });
+
+      $("#open-landing").addEventListener("click", (e) => {
+        e.preventDefault();
+        // show app shell without auth (preview)
+        $("#auth-screen").classList.remove("active");
+        $("#app-shell").classList.remove("hidden");
+        navigate("landing");
+      });
+
+      // back button from resource detail
+      $("#back-to-browse").addEventListener("click", () => {
+        navigate(state.browseBackView || "browse");
+      });
+    }
+
+    function bindAuth() {
+      const toggleLink = $("#auth-toggle-link");
+      toggleLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const signupVisible = !$("#signup-form").classList.contains("hidden");
+        signupVisible ? showLogin() : showSignup();
+      });
+
+      $("#login-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        clearErrors(["login-email","login-password"]);
+
+        const email = $("#login-email").value.trim();
+        const pw = $("#login-password").value;
+
+        let ok = true;
+        if (!email) { setFieldError("login-email", "Email is required."); ok = false; }
+        if (!pw || pw.length < 6) { setFieldError("login-password", "Password must be at least 6 characters."); ok = false; }
+        if (!ok) return;
+
+        // demo: set user email
+        state.user.email = email;
+        state.isAuthed = true;
+        navigate("home");
+        renderHome();
+      });
+
+      $("#signup-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        clearErrors(["signup-name","signup-email","signup-password"]);
+
+        const name = $("#signup-name").value.trim();
+        const email = $("#signup-email").value.trim();
+        const pw = $("#signup-password").value;
+
+        let ok = true;
+        if (!name) { setFieldError("signup-name", "Full name is required."); ok = false; }
+        if (!email) { setFieldError("signup-email", "Email is required."); ok = false; }
+        if (!pw || pw.length < 6) { setFieldError("signup-password", "Password must be at least 6 characters."); ok = false; }
+        if (!ok) return;
+
+        state.user.name = name;
+        state.user.email = email;
+        state.isAuthed = true;
+
+        navigate("home");
+        renderHome();
+        renderProfile();
+      });
+    }
+
+    function showLogin() {
+      $("#auth-title").textContent = "Welcome Back";
+      $("#auth-subtitle").textContent = "Sign in with your email and password";
+      $("#auth-toggle-text").textContent = "Don’t have an account?";
+      $("#auth-toggle-link").textContent = "Sign up";
+      show($("#login-form"));
+      hide($("#signup-form"));
+    }
+
+    function showSignup() {
+      $("#auth-title").textContent = "Create your account";
+      $("#auth-subtitle").textContent = "Sign up to start sharing and saving resources";
+      $("#auth-toggle-text").textContent = "Already have an account?";
+      $("#auth-toggle-link").textContent = "Log in";
+      hide($("#login-form"));
+      show($("#signup-form"));
+    }
+
+    const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const forgotForm = document.getElementById("forgot-form");
+
+const authTitle = document.getElementById("auth-title");
+const authSubtitle = document.getElementById("auth-subtitle");
+
+document.getElementById("forgot-password-link")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginForm.classList.add("hidden");
+  signupForm.classList.add("hidden");
+  forgotForm.classList.remove("hidden");
+
+  authTitle.textContent = "Reset password";
+  authSubtitle.textContent = "We’ll help you get back in";
+});
+
+document.getElementById("back-to-login")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  forgotForm.classList.add("hidden");
+  loginForm.classList.remove("hidden");
+
+  authTitle.textContent = "Welcome Back";
+  authSubtitle.textContent = "Sign in with your email and password";
+});
+
+forgotForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  alert("Password reset link sent! (Demo)");
+});
+
+    function bindBrowseSearch() {
+      $("#global-search").addEventListener("input", (e) => {
+        state.browseQuery = e.target.value;
+        renderBrowse();
+      });
+
+      // Browse category pills
+      $$("#view-browse .pill[data-cat]").forEach(p => {
+        p.addEventListener("click", () => {
+          $$("#view-browse .pill[data-cat]").forEach(x => x.classList.remove("active"));
+          p.classList.add("active");
+          state.browseFilter = p.getAttribute("data-cat");
+          renderBrowse();
+        });
+      });
+
+      // Search input
+      $("#search-input").addEventListener("input", () => renderSearch());
+    }
+
+    function bindResourceActions() {
+      // like / save / open detail
+      document.addEventListener("click", (e) => {
+        const likeBtn = e.target.closest("[data-like]");
+        const saveBtn = e.target.closest("[data-save]");
+        const openBtn = e.target.closest("[data-open]");
+        const card = e.target.closest("[data-resource]");
+
+        if (likeBtn) {
+          const id = likeBtn.getAttribute("data-like");
+          if (!id) return;
+          state.liked.has(id) ? state.liked.delete(id) : state.liked.add(id);
+          // re-render visible views quickly
+          renderHome(); renderBrowse(); renderSearch(); renderSaved();
+          return;
+        }
+
+        if (saveBtn) {
+          const id = saveBtn.getAttribute("data-save");
+          if (!id) return;
+          state.saved.has(id) ? state.saved.delete(id) : state.saved.add(id);
+          renderHome(); renderBrowse(); renderSearch(); renderSaved();
+          return;
+        }
+
+        if (openBtn) {
+          const id = openBtn.getAttribute("data-open");
+          openResource(id);
+          return;
+        }
+
+        // Clicking card opens detail (but avoid if clicking a button inside)
+        if (card && !e.target.closest("button") && !e.target.closest("a")) {
+          const id = card.getAttribute("data-resource");
+          if (id) openResource(id);
+        }
+      });
+
+      // Detail actions
+      $("#detail-like").addEventListener("click", () => {
+        const id = state.activeResourceId;
+        if (!id) return;
+        state.liked.has(id) ? state.liked.delete(id) : state.liked.add(id);
+        renderResourceDetail(id);
+        renderHome(); renderBrowse(); renderSearch(); renderSaved();
+      });
+
+      $("#detail-save").addEventListener("click", () => {
+        const id = state.activeResourceId;
+        if (!id) return;
+        state.saved.has(id) ? state.saved.delete(id) : state.saved.add(id);
+        renderResourceDetail(id);
+        renderHome(); renderBrowse(); renderSearch(); renderSaved();
+      });
+
+      $("#comment-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const id = state.activeResourceId;
+        if (!id) return;
+        const text = $("#comment-text").value.trim();
+        if (!text) return;
+        (state.comments[id] ||= []).unshift({ by: state.user.name.split(" ")[0] || "User", text });
+        $("#comment-text").value = "";
+        renderComments(id);
+      });
+    }
+
+    function openResource(id) {
+      state.browseBackView = document.querySelector(".main .view.active")?.id?.replace("view-","") || "browse";
+      renderResourceDetail(id);
+      navigate("resource");
+    }
+
+    function bindBookmarks() {
+      // grid/list toggle
+      $("#toggle-view").addEventListener("click", () => {
+        state.savedView = state.savedView === "grid" ? "list" : "grid";
+        $("#toggle-label").textContent = state.savedView === "grid" ? "Grid" : "List";
+        $("#toggle-view i")?.setAttribute("data-lucide", state.savedView === "grid" ? "layout-grid" : "list");
+        lucide.createIcons();
+        renderSaved();
+      });
+
+      // saved filter pills
+      $$("#view-saved .pill[data-saved-cat]").forEach(p => {
+        p.addEventListener("click", () => {
+          $$("#view-saved .pill[data-saved-cat]").forEach(x => x.classList.remove("active"));
+          p.classList.add("active");
+          state.savedFilter = p.getAttribute("data-saved-cat");
+          renderSaved();
+        });
+      });
+
+      // remove bookmark animation
+      document.addEventListener("click", (e) => {
+        const rm = e.target.closest("[data-remove-bookmark]");
+        if (!rm) return;
+        const id = rm.getAttribute("data-remove-bookmark");
+        if (!id) return;
+
+        state.saved.delete(id);
+
+        const card = rm.closest("[data-bookmark]");
+        if (card) {
+          card.classList.add("removing");
+          card.addEventListener("transitionend", () => renderSaved(), { once: true });
+        } else {
+          renderSaved();
+        }
+      });
+
+      
+document.addEventListener("DOMContentLoaded", () => {
+  let currentBookmarkTitle = "";
+
+  const modal = document.getElementById("bookmarkModal");
+  const input = document.getElementById("bookmarkTitle");
+  const cancelBtn = document.getElementById("cancelBookmark");
+  const confirmBtn = document.getElementById("confirmBookmark");
+
+  // Open modal
+  document.querySelectorAll(".save-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentBookmarkTitle = btn.dataset.title || "";
+      input.value = currentBookmarkTitle;
+      modal.classList.remove("hidden");
+    });
+  });
+
+  // Close modal
+  cancelBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // Save bookmark
+  confirmBtn.addEventListener("click", () => {
+    const title = input.value.trim();
+    if (!title) return alert("Please enter a title");
+
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+
+    bookmarks.push({
+      title,
+      savedAt: new Date().toISOString()
+    });
+
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    modal.classList.add("hidden");
+  });
+
+  // Initialize icons safely
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+});
+
+      // share (demo)
+      document.addEventListener("click", (e) => {
+        const share = e.target.closest("[data-share]");
+        if (!share) return;
+        const id = share.getAttribute("data-share");
+        const r = state.resources.find(x => x.id === id);
+        if (!r) return;
+        navigator.clipboard?.writeText(r.link).catch(() => {});
+        alert("Link copied (demo): " + r.link);
+      });
+
+      $("#bookmark-sort").addEventListener("change", () => renderSaved());
+    }
+
+    function bindSubmit() {
+      $("#submit-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        clearErrors(["res-title","res-desc","res-cat"]);
+        hide($("#submit-success"));
+
+        const title = $("#res-title").value.trim();
+        const desc = $("#res-desc").value.trim();
+        const cat = $("#res-cat").value;
+        const link = $("#res-link").value.trim() || "https://example.com";
+
+        let ok = true;
+        if (!title) { setFieldError("res-title","Title is required."); ok = false; }
+        if (!desc) { setFieldError("res-desc","Description is required."); ok = false; }
+        if (!cat) { setFieldError("res-cat","Category is required."); ok = false; }
+        if (!ok) return;
+
+        // Add as a "Published" contribution (demo)
+        const id = "c" + Math.random().toString(16).slice(2);
+        const date = new Date().toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+        state.contributions.unshift({
+          id,
+          title,
+          category: cat,
+          date,
+          status: "Published",
+          link,
+        });
+
+        show($("#submit-success"));
+        $("#res-title").value = "";
+        $("#res-desc").value = "";
+        $("#res-cat").value = "";
+        $("#res-link").value = "";
+
+        renderProfile();
+        renderContributions();
+      });
+    }
+
+    function bindContributions() {
+      // tabs
+      $$("#view-contributions .pill[data-contrib-tab]").forEach(p => {
+        p.addEventListener("click", () => {
+          $$("#view-contributions .pill[data-contrib-tab]").forEach(x => x.classList.remove("active"));
+          p.classList.add("active");
+          state.contribTab = p.getAttribute("data-contrib-tab");
+          renderContributions();
+        });
+      });
+
+      // dropdown menus
+      document.addEventListener("click", (e) => {
+        // close menus if click outside
+        if (!e.target.closest(".dropdown")) {
+          $$(".menu").forEach(m => m.style.display = "none");
+        }
+        const menuBtn = e.target.closest("[data-menu]");
+        if (menuBtn) {
+          const id = menuBtn.getAttribute("data-menu");
+          const menu = $(`#menu-${id}`);
+          if (!menu) return;
+          // toggle
+          const open = menu.style.display === "block";
+          $$(".menu").forEach(m => m.style.display = "none");
+          menu.style.display = open ? "none" : "block";
+        }
+
+        const delBtn = e.target.closest("[data-delete]");
+        if (delBtn) {
+          const id = delBtn.getAttribute("data-delete");
+          state.contributions = state.contributions.filter(x => x.id !== id);
+          renderProfile();
+          renderContributions();
+          return;
+        }
+
+        const archBtn = e.target.closest("[data-archive]");
+        if (archBtn) {
+          const id = archBtn.getAttribute("data-archive");
+          const item = state.contributions.find(x => x.id === id);
+          if (item) item.status = "Archived";
+          renderContributions();
+          return;
+        }
+
+        const editBtn = e.target.closest("[data-edit]");
+        if (editBtn) {
+          alert("Edit (demo): wire this to a modal later.");
+        }
+
+        const prev = e.target.closest("[data-preview-link]");
+        if (prev) {
+          const id = prev.getAttribute("data-preview-link");
+          const item = state.contributions.find(x => x.id === id);
+          if (item?.link) window.open(item.link, "_blank");
+        }
+      });
+
+      // load more (demo)
+      $("#load-more").addEventListener("click", () => {
+        alert("Load more (demo): connect to pagination later.");
+      });
+    }
+
+    function bindProfile() {
+      $("#profile-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        hide($("#profile-saved"));
+
+        state.user.name = $("#pf-name").value.trim() || state.user.name;
+        state.user.email = $("#pf-email").value.trim() || state.user.email;
+        state.user.pronouns = $("#pf-pronouns").value.trim();
+        state.user.phone = $("#pf-phone").value.trim();
+
+        $("#profile-name-title").textContent = state.user.name;
+        $("#profile-pronouns-title").textContent = state.user.pronouns;
+
+        show($("#profile-saved"));
+        setTimeout(() => hide($("#profile-saved")), 1200);
+      });
+
+      // photo preview
+      $("#pf-photo").addEventListener("change", (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          state.user.avatarDataUrl = reader.result;
+          $("#profile-avatar-img")?.setAttribute("src", state.user.avatarDataUrl);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // add skill
+      $("#add-skill").addEventListener("click", () => {
+        const val = $("#skill-input").value.trim();
+        if (!val) return;
+        state.user.skills.unshift(val);
+        $("#skill-input").value = "";
+        renderSkills();
+      });
+
+      // remove skill
+      document.addEventListener("click", (e) => {
+        const rm = e.target.closest("[data-remove-skill]");
+        if (!rm) return;
+        const idx = Number(rm.getAttribute("data-remove-skill"));
+        if (Number.isNaN(idx)) return;
+        state.user.skills.splice(idx, 1);
+        renderSkills();
+      });
+    }
+
+    function bindContact() {
+      $("#contact-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        $("#contact-success").style.display = "block";
+        setTimeout(() => $("#contact-success").style.display = "none", 1400);
+        e.target.reset();
+      });
+    }
+
+    // -----------------------
+    // Safe text helper
+    // -----------------------
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // 1. Inside your DOMContentLoaded listener, add this line:
+document.addEventListener("DOMContentLoaded", () => {
+  lucide.createIcons();
+  bindNav();
+  bindAuth();
+  // ... (keep your other lines)
+  bindThemeToggle(); // <--- ADD THIS LINE
+});
+
+// Add this function to handle the theme toggle:
+function bindThemeToggle() {
+  const toggle = document.getElementById('toggle-theme');
+  
+  // Check if the user previously chose dark mode
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    if (toggle) toggle.checked = true;
+  }
+
+  if (toggle) {
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+}
+
+document.getElementById('save-settings').addEventListener('click', function() {
+    const btn = this;
+    const originalContent = btn.innerHTML;
+    
+    // Change button to show it's saving
+    btn.innerHTML = `<i data-lucide="loader-2" class="spin" style="width:18px;"></i> Saving...`;
+    lucide.createIcons(); // Refresh icon
+    btn.style.opacity = "0.7";
+    btn.disabled = true;
+
+    // Simulate a save delay
+    setTimeout(() => {
+        btn.innerHTML = `<i data-lucide="check" style="width:18px;"></i> Saved!`;
+        btn.style.backgroundColor = "#22c55e"; // Green success color
+        btn.style.borderColor = "#22c55e";
+        lucide.createIcons();
+
+        // Reset button back to normal after 2 seconds
+        setTimeout(() => {
+            btn.innerHTML = originalContent;
+            btn.style.backgroundColor = ""; 
+            btn.style.borderColor = "";
+            btn.style.opacity = "1";
+            btn.disabled = false;
+            lucide.createIcons();
+        }, 2000);
+    }, 800);
+});
+
+
+
+    // -----------------------
+    // Init
+    // -----------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+
+      bindNav();
+      bindAuth();
+      bindBrowseSearch();
+      bindResourceActions();
+      bindBookmarks();
+      bindSubmit();
+      bindContributions();
+      bindProfile();
+      bindContact();
+
+      // Prefill profile form
+      renderProfile();
+
+      // Default renders
+      renderHome();
+      renderBrowse();
+      renderSearch();
+      renderSaved();
+      renderContributions();
+
+      // Start on auth
+      navigate("auth");
+      showLogin();
+    });
+
+    
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form");
+  const signupForm = document.getElementById("signup-form");
+  const authTitle = document.getElementById("auth-title");
+  const authSubtitle = document.getElementById("auth-subtitle");
+  const toggleText = document.getElementById("auth-toggle-text");
+  const toggleLink = document.getElementById("auth-toggle-link");
+
+  // SAFETY CHECK (prevents crashes)
+  if (!loginForm || !signupForm || !toggleLink) return;
+
+  toggleLink.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const isLogin = !loginForm.classList.contains("hidden");
+
+    if (isLogin) {
+      loginForm.classList.add("hidden");
+      signupForm.classList.remove("hidden");
+
+      authTitle.textContent = "Create an account";
+      authSubtitle.textContent = "Sign up to get started";
+      toggleText.textContent = "Already have an account?";
+      toggleLink.textContent = "Log in";
+    } else {
+      signupForm.classList.add("hidden");
+      loginForm.classList.remove("hidden");
+
+      authTitle.textContent = "Welcome Back";
+      authSubtitle.textContent = "Sign in with your email and password";
+      toggleText.textContent = "Don’t have an account?";
+      toggleLink.textContent = "Sign up";
+    }
+  });
+});
+
+  </script>
+  
+</body>
+</html>
