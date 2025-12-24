@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Layout</title>
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="contact-card">
+            <div class="form-panel">
+                <h2 class="form-title">Contact us</h2>
+
+                <form class="contact-form">
+                    <div class="input-group">
+                        <label for="email" class="sr-only">Enter your email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <h3 class="input-label">What is it about?</h3>
+                    <div class="input-group select-group">
+                        <label for="subject" class="sr-only">Select subject</label>
+                        <select id="subject" required>
+                            <option value="" disabled selected>-----</option>
+                            <option value="support">Technical Support</option>
+                            <option value="billing">Billing Inquiry</option>
+                            <option value="general">General Question</option>
+                        </select>
+                        <div class="custom-arrow"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="message" class="sr-only">Enter your message</label>
+                        <textarea id="message" rows="4" placeholder="Enter your message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="send-btn">SEND</button>
+                </form>
+            </div>
+
+            <div class="image-panel">
+                <img src="logo.png"alt="Two people collaborating" class="contact-image">
+            </div>
+        </div>
+
+        <div class="inline-text"></div>
+    </div>
+</body>
+</html>

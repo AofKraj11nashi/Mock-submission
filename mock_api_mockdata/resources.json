@@ -1,0 +1,42 @@
+[
+  {
+    "resource_id": 1,
+    "title": "10 Tips for Urban Gardeners",
+    "description": "A helpful blog with tips on starting urban gardens.",
+    "category": "Gardening",
+    "link": "https://gardening-blog.com/tips",
+    "created_by": 1,
+    "upvotes": 24,
+    "comments": [
+      {
+        "user_id": 2,
+        "text": "Really useful, thanks!"
+      }
+    ]
+  },
+  {
+    "resource_id": 2,
+    "title": "Beginner's Guide to 3D Printing",
+    "description": "A YouTube tutorial covering 3D printing basics.",
+    "category": "3D Printing",
+    "link": "https://youtube.com/3dprinting-guide",
+    "created_by": 1,
+    "upvotes": 15,
+    "comments": []
+  },
+  {
+    "resource_id": 3,
+    "title": "Python for Absolute Beginners",
+    "description": "GitHub repo with beginner-friendly Python exercises.",
+    "category": "Coding",
+    "link": "https://github.com/python-beginner",
+    "created_by": 2,
+    "upvotes": 55,
+    "comments": [
+      {
+        "user_id": 1,
+        "text": "Great introduction to coding!"
+      }
+    ]
+  }
+]

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Swap Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Utilities */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<!--I have two lightweight CDN (Content Delivery Network) installations directly in the <head> of the HTML file. This allows the file to work instantly in browser without needing Node.js, npm install, or a build process.
+
+1. Tailwind CSS (Styling)
+Code: <script src="https://cdn.tailwindcss.com"></script> Exported from FigmaMake 
+What it does: This script scans the HTML for Tailwind classes (like bg-blue-500, flex, p-4) and generates the necessary CSS on the fly right in browser.
+Why: It allows us to keep the beautiful, responsive design from the React app without needing a complex build setup.
+2. Lucide Icons (Iconography)
+Code: <script src="https://unpkg.com/lucide@latest"></script> Exported from FigmaMake 
+What it does: This library loads the icon set.
+How it works:
+In the HTML, icons are defined like <i data-lucide="search"></i>.
+At the bottom of the file, the script lucide.createIcons(); runs, converting those tags into SVG graphics.
+No Other Dependencies -->>
+
+<body class="min-h-screen bg-[#F8F8FF] font-sans text-slate-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+        <div class="container mx-auto flex h-16 items-center justify-between px-4">
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 font-bold text-xl tracking-tight">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1E90FF] text-white">
+                        S
+                    </div>
+                    <span>Skill Swap Hub</span>
+                </div>
+                <nav class="hidden md:flex items-center gap-1">
+                    <button onclick="switchScreen('contributions')" id="nav-contributions" class="nav-btn bg-[#E6E6FA] text-[#1E90FF] hover:bg-[#E6E6FA]/80 font-medium h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                        <i data-lucide="file-text" class="mr-2 h-4 w-4"></i> Contributions
+                    </button>
+                    <button onclick="switchScreen('search')" id="nav-search" class="nav-btn text-slate-600 hover:bg-[#F8F8FF] font-medium h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                        <i data-lucide="search" class="mr-2 h-4 w-4"></i> Search
+                    </button>
+                    <button onclick="switchScreen('bookmarks')" id="nav-bookmarks" class="nav-btn text-slate-600 hover:bg-[#F8F8FF] font-medium h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                        <i data-lucide="bookmark" class="mr-2 h-4 w-4"></i> Bookmarks
+                    </button>
+                </nav>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="h-10 w-10 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-slate-100 hover:text-slate-900 text-slate-500">
+                    <i data-lucide="bell" class="h-5 w-5"></i>
+                </button>
+                <div class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full border border-slate-200">
+                    <img class="aspect-square h-full w-full" src="https://github.com/shadcn.png" alt="User">
+                </div>
+                <button class="md:hidden h-10 w-10 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-slate-100 hover:text-slate-900">
+                    <i data-lucide="menu" class="h-5 w-5"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto py-8 px-4">
+        
+        <!-- SECTION: Contributions -->
+        <section id="screen-contributions" class="screen-section">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Sidebar -->
+                <aside class="w-full lg:w-80 shrink-0 space-y-6">
+                    <div class="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden border-none">
+                        <div class="h-24 bg-[#1E90FF]/10"></div>
+                        <div class="px-6 pb-6">
+                            <div class="relative -mt-12 mb-4">
+                                <div class="h-24 w-24 border-4 border-white shadow-sm rounded-full overflow-hidden">
+                                    <img src="https://github.com/shadcn.png" class="h-full w-full object-cover">
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900">Jane Doe</h3>
+                            <p class="text-sm text-slate-500 mb-4">Product Designer & Developer</p>
+                            
+                            <div class="grid grid-cols-2 gap-4 py-4 border-t border-slate-100">
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900">24</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider">Resources</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900">1.2k</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-wider">Followers</p>
+                                </div>
+                            </div>
+                            
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-[#1E90FF] hover:bg-[#1E90FF]/90 text-white shadow-sm">
+                                Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="flex-1 space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Your Contributions</h1>
+                            <p class="text-slate-500 mt-1">View and manage all resources you’ve published.</p>
+                        </div>
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-[#1E90FF] hover:bg-[#1E90FF]/90 text-white shadow-sm">
+                            <i data-lucide="plus" class="mr-2 h-4 w-4"></i> Create New Resource
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex flex-wrap items-center gap-2 pb-4">
+                        <button onclick="filterContributions('All')" class="contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-[#1E90FF] text-white shadow-sm" data-filter="All">All</button>
+                        <button onclick="filterContributions('Published')" class="contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="Published">Published</button>
+                        <button onclick="filterContributions('Draft')" class="contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="Draft">Drafts</button>
+                        <button onclick="filterContributions('Archived')" class="contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="Archived">Archived</button>
+                    </div>
+
+                    <!-- Grid -->
+                    <div id="contributions-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="contrib-card group overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl bg-card text-card-foreground" data-status="Published">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
+                                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&q=80" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <div class="absolute top-3 right-3">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-emerald-100 text-emerald-700 border-none shadow-sm">Published</div>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-slate-500 font-normal">Design System</div>
+                                    <span class="text-xs text-slate-400 whitespace-nowrap">Oct 24, 2023</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-slate-900 line-clamp-1 mb-1 group-hover:text-[#1E90FF] transition-colors">Modern Dashboard UI Kit</h3>
+                            </div>
+                            <div class="p-5 pt-0 flex justify-between items-center text-slate-500">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-xs h-8 px-2 hover:text-[#1E90FF] hover:bg-slate-100">
+                                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i> Preview
+                                </button>
+                                <div class="flex gap-1">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF] text-[#1E90FF]">
+                                        <i data-lucide="edit" class="h-4 w-4"></i>
+                                    </button>
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF]">
+                                        <i data-lucide="more-horizontal" class="h-4 w-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="contrib-card group overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl bg-card text-card-foreground" data-status="Draft">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
+                                <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=800&q=80" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <div class="absolute top-3 right-3">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-amber-100 text-amber-700 border-none shadow-sm">Draft</div>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-slate-500 font-normal">Development</div>
+                                    <span class="text-xs text-slate-400 whitespace-nowrap">Nov 02, 2023</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-slate-900 line-clamp-1 mb-1 group-hover:text-[#1E90FF] transition-colors">React Authentication Hooks</h3>
+                            </div>
+                            <div class="p-5 pt-0 flex justify-between items-center text-slate-500">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-xs h-8 px-2 hover:text-[#1E90FF] hover:bg-slate-100">
+                                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i> Preview
+                                </button>
+                                <div class="flex gap-1">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF] text-[#1E90FF]">
+                                        <i data-lucide="edit" class="h-4 w-4"></i>
+                                    </button>
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF]">
+                                        <i data-lucide="more-horizontal" class="h-4 w-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Card 3 -->
+                         <div class="contrib-card group overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl bg-card text-card-foreground" data-status="Archived">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
+                                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <div class="absolute top-3 right-3">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-slate-100 text-slate-700 border-none shadow-sm">Archived</div>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-slate-500 font-normal">Icons</div>
+                                    <span class="text-xs text-slate-400 whitespace-nowrap">Sep 15, 2023</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-slate-900 line-clamp-1 mb-1 group-hover:text-[#1E90FF] transition-colors">E-commerce Icon Set</h3>
+                            </div>
+                            <div class="p-5 pt-0 flex justify-between items-center text-slate-500">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-xs h-8 px-2 hover:text-[#1E90FF] hover:bg-slate-100">
+                                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i> Preview
+                                </button>
+                                <div class="flex gap-1">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF] text-[#1E90FF]">
+                                        <i data-lucide="edit" class="h-4 w-4"></i>
+                                    </button>
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF]">
+                                        <i data-lucide="more-horizontal" class="h-4 w-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                                                <!-- Card 4 -->
+                         <div class="contrib-card group overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 rounded-xl bg-card text-card-foreground" data-status="Published">
+                            <div class="aspect-video w-full overflow-hidden bg-slate-100 relative">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <div class="absolute top-3 right-3">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-emerald-100 text-emerald-700 border-none shadow-sm">Published</div>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-start justify-between gap-2 mb-2">
+                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-slate-500 font-normal">Web Design</div>
+                                    <span class="text-xs text-slate-400 whitespace-nowrap">Dec 05, 2023</span>
+                                </div>
+                                <h3 class="font-bold text-lg text-slate-900 line-clamp-1 mb-1 group-hover:text-[#1E90FF] transition-colors">SaaS Landing Page Template</h3>
+                            </div>
+                            <div class="p-5 pt-0 flex justify-between items-center text-slate-500">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-xs h-8 px-2 hover:text-[#1E90FF] hover:bg-slate-100">
+                                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i> Preview
+                                </button>
+                                <div class="flex gap-1">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF] text-[#1E90FF]">
+                                        <i data-lucide="edit" class="h-4 w-4"></i>
+                                    </button>
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-slate-900 h-8 w-8 hover:bg-[#F8F8FF]">
+                                        <i data-lucide="more-horizontal" class="h-4 w-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center pt-6 pb-8">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 min-w-[150px]">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Search Results -->
+        <section id="screen-search" class="screen-section hidden">
+            <div class="flex flex-col gap-6">
+                <!-- Search Header -->
+                <div class="sticky top-16 z-40 bg-[#F8F8FF]/95 backdrop-blur-sm pt-4 pb-2 -mt-4 border-b border-slate-200/50">
+                    <div class="relative max-w-3xl mb-4">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"></i>
+                        <input class="flex w-full px-3 py-2 border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-12 h-14 text-lg border-slate-200 shadow-sm rounded-full focus-visible:ring-[#1E90FF]" placeholder="Search resources..." value="Web Design">
+                    </div>
+            
+                    <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-slate-900 text-white shadow-sm">All</button>
+                        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">Categories</button>
+                        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">People</button>
+                        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">Popular</button>
+                        <button class="px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">Recent</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                     <!-- Filters Sidebar (Static) -->
+                    <div class="hidden lg:block lg:col-span-3 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="filter" class="h-4 w-4"></i> Filters
+                            </h3>
+                            <button class="text-sm font-medium text-slate-500 hover:text-slate-900">Reset</button>
+                        </div>
+                        
+                        <div class="rounded-xl border bg-card text-card-foreground shadow-sm border-none p-4 space-y-6">
+                             <!-- Mock Selects -->
+                             <div class="space-y-3">
+                                <label class="text-sm font-semibold text-slate-700">Category</label>
+                                <div class="relative w-full border border-slate-200 rounded-md p-2 bg-white text-sm">Select Category</div>
+                             </div>
+                             <div class="space-y-3">
+                                <label class="text-sm font-semibold text-slate-700">Date Range</label>
+                                <div class="relative w-full border border-slate-200 rounded-md p-2 bg-white text-sm">Any time</div>
+                             </div>
+                             <div class="space-y-3">
+                                <label class="text-sm font-semibold text-slate-700">Resource Type</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2"><input type="checkbox"><label class="text-sm text-slate-600">Article</label></div>
+                                    <div class="flex items-center gap-2"><input type="checkbox"><label class="text-sm text-slate-600">Video</label></div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Results List -->
+                    <div class="col-span-1 lg:col-span-9 space-y-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-slate-500">
+                                <span class="font-semibold text-slate-900">12 results</span> for: "Web Design"
+                            </p>
+                        </div>
+              
+                        <div class="space-y-4">
+                            <!-- Result 1 -->
+                            <div class="rounded-xl border bg-card text-card-foreground border-none shadow-sm hover:shadow-md transition-shadow">
+                                <div class="p-6">
+                                    <div class="flex flex-col md:flex-row gap-6">
+                                        <div class="flex-1 space-y-3">
+                                            <div>
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-[#F8F8FF] text-[#1E90FF] hover:bg-[#E6E6FA]">Design</div>
+                                                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-[#F8F8FF] text-[#1E90FF] hover:bg-[#E6E6FA]">Accessibility</div>
+                                                </div>
+                                                <h3 class="text-xl font-bold text-slate-900 mb-2 cursor-pointer hover:text-[#1E90FF] transition-colors">Ultimate Guide to Accessible Web Design</h3>
+                                                <p class="text-slate-600 leading-relaxed">A comprehensive guide covering WCAG guidelines, aria-labels, and best practices for creating inclusive web experiences for everyone.</p>
+                                            </div>
+                                            <div class="flex items-center gap-4 pt-2">
+                                                <div class="flex items-center gap-2">
+                                                    <div class="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full">
+                                                        <img class="aspect-square h-full w-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80">
+                                                    </div>
+                                                    <span class="text-sm font-medium text-slate-700">Sarah Wilson</span>
+                                                </div>
+                                                <span class="text-xs text-slate-400">•</span>
+                                                <span class="text-sm text-slate-500">2 days ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex md:flex-col items-center justify-between md:justify-center gap-4 md:border-l md:pl-6 md:w-32 shrink-0">
+                                            <div class="flex flex-row md:flex-col gap-4">
+                                                <div class="flex items-center gap-1.5 text-amber-500"><i data-lucide="star" class="h-4 w-4 fill-current"></i><span class="font-bold text-sm">4.9</span></div>
+                                                <div class="flex items-center gap-1.5 text-slate-500"><i data-lucide="heart" class="h-4 w-4"></i><span class="text-sm">245</span></div>
+                                                <div class="flex items-center gap-1.5 text-slate-500"><i data-lucide="repeat" class="h-4 w-4"></i><span class="text-sm">102</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center pt-8">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full md:w-auto">Load More Results</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Bookmarks -->
+        <section id="screen-bookmarks" class="screen-section hidden">
+            <div class="space-y-8">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Your Bookmarks</h1>
+                        <p class="text-slate-500 mt-1">Saved resources for quick access.</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                       <div class="flex bg-white rounded-lg border p-1">
+                          <button onclick="setViewMode('grid')" id="view-grid" class="view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md bg-slate-100 text-slate-900">
+                            <i data-lucide="layout-grid" class="h-4 w-4"></i>
+                          </button>
+                          <button onclick="setViewMode('list')" id="view-list" class="view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md text-slate-400">
+                            <i data-lucide="list" class="h-4 w-4"></i>
+                          </button>
+                       </div>
+                       
+                       <div class="w-[140px] border border-slate-200 rounded-md p-2 bg-white text-sm flex justify-between items-center cursor-pointer">
+                           <span>Newest</span>
+                           <i data-lucide="chevron-down" class="h-4 w-4 opacity-50"></i>
+                       </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterBookmarks('All')" class="bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1E90FF] text-white shadow-sm ring-2 ring-[#1E90FF] ring-offset-2" data-filter="All">All</button>
+                    <button onclick="filterBookmarks('Design')" class="bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="Design">Design</button>
+                    <button onclick="filterBookmarks('Code')" class="bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="Code">Code</button>
+                    <button onclick="filterBookmarks('AI')" class="bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200" data-filter="AI">AI</button>
+                </div>
+
+                <!-- Bookmark Container -->
+                <div id="bookmarks-container" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Bookmark 1 -->
+                    <div class="bookmark-card group overflow-hidden border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 rounded-xl bg-card text-card-foreground" data-tag="Design">
+                        <div class="aspect-[4/3] w-full overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-8 px-3 bg-white text-slate-900 hover:bg-white/90 font-medium">Open Resource</button>
+                            </div>
+                            <button class="absolute top-3 right-3 h-8 w-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-[#1E90FF] shadow-sm hover:bg-white transition-colors">
+                                <i data-lucide="heart" class="h-4 w-4 fill-current"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <div class="mb-2">
+                                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-[#F8F8FF] text-[#1E90FF] hover:bg-[#E6E6FA] font-normal">Design</div>
+                            </div>
+                            <h3 class="font-bold text-slate-900 line-clamp-1 mb-1">Minimalist Design Trends 2024</h3>
+                            <p class="text-sm text-slate-500 line-clamp-2 mb-4 h-10">Exploring the shift towards warmer minimalism and complex gradients in modern web design.</p>
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                                <div class="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"><img class="aspect-square h-full w-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80"></div>
+                                <span class="text-xs font-medium text-slate-600">Alex M.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookmark 2 -->
+                    <div class="bookmark-card group overflow-hidden border-none shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 rounded-xl bg-card text-card-foreground" data-tag="Code">
+                        <div class="aspect-[4/3] w-full overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <button class="absolute top-3 right-3 h-8 w-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-[#1E90FF] shadow-sm hover:bg-white transition-colors">
+                                <i data-lucide="heart" class="h-4 w-4 fill-current"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <div class="mb-2">
+                                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-[#F8F8FF] text-[#1E90FF] hover:bg-[#E6E6FA] font-normal">Code</div>
+                            </div>
+                            <h3 class="font-bold text-slate-900 line-clamp-1 mb-1">Advanced React Patterns</h3>
+                            <p class="text-sm text-slate-500 line-clamp-2 mb-4 h-10">Higher-order components, render props, and custom hooks explained with real-world examples.</p>
+                            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                                <div class="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"><img class="aspect-square h-full w-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"></div>
+                                <span class="text-xs font-medium text-slate-600">Sarah J.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // 1. Navigation Switching
+        function switchScreen(screenId) {
+            // Hide all sections
+            document.querySelectorAll('.screen-section').forEach(el => el.classList.add('hidden'));
+            // Show target section
+            document.getElementById('screen-' + screenId).classList.remove('hidden');
+
+            // Update Nav Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn text-slate-600 hover:bg-[#F8F8FF] font-medium h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+            });
+            const activeBtn = document.getElementById('nav-' + screenId);
+            activeBtn.className = "nav-btn bg-[#E6E6FA] text-[#1E90FF] hover:bg-[#E6E6FA]/80 font-medium h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+        }
+
+        // 2. Contributions Filtering
+        function filterContributions(filter) {
+            // Update Buttons
+            document.querySelectorAll('.contrib-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.className = "contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-[#1E90FF] text-white shadow-sm";
+                } else {
+                    btn.className = "contrib-filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200";
+                }
+            });
+
+            // Filter Items
+            document.querySelectorAll('.contrib-card').forEach(card => {
+                if (filter === 'All' || card.dataset.status === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 3. Bookmarks View Mode
+        function setViewMode(mode) {
+            const container = document.getElementById('bookmarks-container');
+            const gridBtn = document.getElementById('view-grid');
+            const listBtn = document.getElementById('view-list');
+
+            if (mode === 'grid') {
+                container.className = "grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6";
+                gridBtn.className = "view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md bg-slate-100 text-slate-900";
+                listBtn.className = "view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md text-slate-400";
+            } else {
+                container.className = "flex flex-col gap-4";
+                listBtn.className = "view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md bg-slate-100 text-slate-900";
+                gridBtn.className = "view-btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-md text-slate-400";
+            }
+        }
+
+        // 4. Bookmarks Filtering
+        function filterBookmarks(filter) {
+            document.querySelectorAll('.bookmark-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.className = "bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-[#1E90FF] text-white shadow-sm ring-2 ring-[#1E90FF] ring-offset-2";
+                } else {
+                    btn.className = "bookmark-filter-btn px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-white text-slate-600 hover:bg-[#F8F8FF] border border-slate-200";
+                }
+            });
+
+            document.querySelectorAll('.bookmark-card').forEach(card => {
+                if (filter === 'All' || card.dataset.tag === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

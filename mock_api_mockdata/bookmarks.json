@@ -1,0 +1,15 @@
+[
+  {
+    "user_id": 1,
+    "bookmarks": [
+      3
+    ]
+  },
+  {
+    "user_id": 2,
+    "bookmarks": [
+      1,
+      2
+    ]
+  }
+]

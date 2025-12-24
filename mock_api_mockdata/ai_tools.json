@@ -1,0 +1,22 @@
+[
+  {
+    "tool_id": 1,
+    "name": "Canva AI Design",
+    "category": "Art",
+    "description": "AI-powered design suggestions for posters and graphics.",
+    "recommended_for": [
+      "Art",
+      "Design"
+    ]
+  },
+  {
+    "tool_id": 2,
+    "name": "GitHub Copilot",
+    "category": "Coding",
+    "description": "AI-powered coding assistant.",
+    "recommended_for": [
+      "Coding",
+      "AI Tools"
+    ]
+  }
+]

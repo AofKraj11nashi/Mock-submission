@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f7f8fc;
+    color: #1c1c1c;
+    padding:20px;
+}
+
+
+/*--Top bar of the app--*/
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 0%;
+}
+
+.logo-text {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.h1 {
+    font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+  margin-bottom: 8px;
+}
+
+
+/*Layoout container*/
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.user-profile {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+.subtitle {
+    color: #555;
+    margin-bottom: 24px;
+    font-size: clamp(0.9, 1.2vw, 1.7rem)
+}
+
+.card{
+    background: white;
+    padding-inline-end: 20px;
+    border-radius: 16px;
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    width: 100px;
+}
+
+.tag {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7582ff;
+    letter-spacing: 1px;
+}
+
+.action-btn{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 20px;
+    background: #f2f3ff;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s,
+}
+
+.action-btn:hover {
+    background: #e4e6ff;
+}
+
+
+/*--Responsive design for mobile/small devices--*/
+@media (min-width: 768px) {
+    body{
+        padding: 40px;
+    }
+}
+
+.card {
+    padding: 28px;
+}
+
+.action-btn{
+    font-size: 22px;
+    padding: 12px;
+
+}
+
+
+/*--Large devices render--*/
+@media (min-width: 1200px) {
+    .container {
+        max-width: 700px;
+    }
+
+    .card {
+        padding: 32px;
+    }
+}

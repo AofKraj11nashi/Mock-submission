@@ -1,0 +1,36 @@
+[
+  {
+    "user_id": 1,
+    "full_name": "Jane Doe",
+    "email": "jane@example.com",
+    "pronouns": "She/Her",
+    "phone_number": "07584219311",
+    "profile_picture": "https://example.com/jane.png",
+    "skills_hobbies": [
+      "Gardening",
+      "Baking",
+      "3D Printing"
+    ],
+    "reputation_score": 48,
+    "contributed_resources": [
+      1,
+      3
+    ]
+  },
+  {
+    "user_id": 2,
+    "full_name": "Alex Chen",
+    "email": "alex@example.com",
+    "pronouns": "He/Him",
+    "phone_number": "07854321987",
+    "profile_picture": "https://example.com/alex.png",
+    "skills_hobbies": [
+      "Coding",
+      "AI Tools"
+    ],
+    "reputation_score": 90,
+    "contributed_resources": [
+      2
+    ]
+  }
+]

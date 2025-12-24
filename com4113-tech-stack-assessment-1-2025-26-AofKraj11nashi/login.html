@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      gap: 60px;
+      max-width: 1100px;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Illustration */
+    .illustration {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .illustration img {
+      width: 80%;
+      max-width: 400px;
+      height: auto;
+    }
+
+    /* Login Box */
+    .form-box {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .form-box h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #222;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 14px 16px 48px;
+      border-radius: 12px;
+      border: none;
+      background: #f1f1f1;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .input-group span {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      opacity: 0.6;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: #1E90FF;
+      border: none;
+      padding: 16px;
+      border-radius: 40px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s ease-in-out;
+    }
+
+    .login-btn:hover {
+      opacity: 0.9;
+    }
+
+    .forgot {
+      margin-top: 15px;
+      text-align: center;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .signup {
+      margin-top: 35px;
+      text-align: center;
+      color: #111;
+      font-size: 15px;
+    }
+
+    .signup a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #222;
+    }
+
+    /* Terms Section */
+    .terms {
+      font-size: 12px;
+      color: rgba(159, 150, 150, 0.777);
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 18px;
+      line-height: 1.4;
+    }
+
+    /* Responsive */
+    @media(max-width: 860px) {
+      .container {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .illustration img {
+        width: 240px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Illustration -->
+    <div class="illustration">
+      <img src="logo.png" alt="Login Illustration">
+    </div>
+
+    <!-- Login Box -->
+    <div class="form-box">
+      <h2>Member Login</h2>
+
+      <form>
+        <div class="input-group">
+          <span>📧</span>
+          <input type="email" placeholder="Email" required>
+        </div>
+
+        <div class="input-group">
+          <span>🔒</span>
+          <input type="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="login-btn">LOGIN</button>
+        <p class="forgot">Forgot Username / Password?</p>
+      </form>
+
+      <p class="signup">Create your Account →</p>
+
+      <!-- Terms Section -->
+      <p class="terms">By logging in, you agree to our Terms and Conditions.</p>
+    </div>
+
+  </div>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault(); 
+    window.location.href = "home.html";
+  });
+</script>
+
+</body>
+</html>

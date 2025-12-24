@@ -1,0 +1,9 @@
+[
+  {
+    "message_id": 1,
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "message": "How do I delete my profile picture?",
+    "status": "open"
+  }
+]
